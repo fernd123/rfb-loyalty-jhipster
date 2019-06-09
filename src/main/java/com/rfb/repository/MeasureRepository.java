@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface MeasureRepository extends JpaRepository<Measure, Long> {
+public interface MeasureRepository extends JpaRepository<Measure, Long>, JpaSpecificationExecutor<Measure> {
 
 }

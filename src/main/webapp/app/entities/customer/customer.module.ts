@@ -8,11 +8,17 @@ import {
   CustomerUpdateComponent,
   CustomerDeletePopupComponent,
   CustomerDeleteDialogComponent,
+  CustomerEditPopupComponent,
+  CustomerEditDialogComponent,
+  CustomerMeasurePopupComponent,
+  CustomerMeasureDialogComponent,
   customerRoute,
-  customerPopupRoute
+  customerPopupRoute,
+  customerEditPopupRoute,
+  customerMeasurePopupRoute
 } from './';
 
-const ENTITY_STATES = [...customerRoute, ...customerPopupRoute];
+const ENTITY_STATES = [...customerRoute, ...customerPopupRoute, ...customerEditPopupRoute, ...customerMeasurePopupRoute];
 
 @NgModule({
   imports: [RfbloyaltySharedModule, RouterModule.forChild(ENTITY_STATES)],
@@ -21,9 +27,22 @@ const ENTITY_STATES = [...customerRoute, ...customerPopupRoute];
     CustomerDetailComponent,
     CustomerUpdateComponent,
     CustomerDeleteDialogComponent,
-    CustomerDeletePopupComponent
+    CustomerDeletePopupComponent,
+    CustomerEditPopupComponent,
+    CustomerEditDialogComponent,
+    CustomerMeasurePopupComponent,
+    CustomerMeasureDialogComponent
   ],
-  entryComponents: [CustomerComponent, CustomerUpdateComponent, CustomerDeleteDialogComponent, CustomerDeletePopupComponent],
+  entryComponents: [
+    CustomerComponent,
+    CustomerUpdateComponent,
+    CustomerDeleteDialogComponent,
+    CustomerDeletePopupComponent,
+    CustomerEditPopupComponent,
+    CustomerEditDialogComponent,
+    CustomerMeasurePopupComponent,
+    CustomerMeasureDialogComponent
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class RfbloyaltyCustomerModule {}

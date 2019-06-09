@@ -1,6 +1,7 @@
+import { Customer } from './../../shared/model/customer.model';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, zip } from 'rxjs';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { map } from 'rxjs/operators';
@@ -14,6 +15,7 @@ type EntityArrayResponseType = HttpResponse<ICustomer[]>;
 
 @Injectable({ providedIn: 'root' })
 export class CustomerService {
+  public customer: ICustomer = new Customer();
   public resourceUrl = SERVER_API_URL + 'api/customers';
 
   constructor(protected http: HttpClient) {}
@@ -51,8 +53,6 @@ export class CustomerService {
     return this.http
       .get<ICustomer[]>(this.resourceUrl + '?name.contains=' + keyword + '&queryParams=name', { params: options, observe: 'response' })
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
-
-    //  customers?name.contains=mobile&queryParams=name
   }
 
   delete(id: number): Observable<HttpResponse<any>> {

@@ -219,6 +219,10 @@ import { RouterModule } from '@angular/router';
       {
         path: 'customer',
         loadChildren: './customer/customer.module#RfbloyaltyCustomerModule'
+      },
+      {
+        path: 'measure',
+        loadChildren: './measure/measure.module#RfbloyaltyMeasureModule'
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

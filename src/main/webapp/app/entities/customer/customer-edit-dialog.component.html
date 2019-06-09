@@ -1,0 +1,111 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save('customer')" [formGroup]="editForm">
+    <div class="modal-header">
+        <h4 class="modal-title">Actualizar Datos Cliente</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <div>
+            <jhi-alert-error></jhi-alert-error>
+            <div class="form-group">
+                <label class="form-control-label" for="field_name">Name</label>
+                <input type="text" class="form-control" name="name" id="field_name" formControlName="name" />
+                <div
+                    *ngIf="editForm.get('name').invalid && (editForm.get('name').dirty || editForm.get('name').touched)">
+                    <small class="form-text text-danger" *ngIf="editForm.get('name').errors.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" for="field_firstName">First Name</label>
+                <input type="text" class="form-control" name="firstName" id="field_firstName"
+                    formControlName="firstName" />
+                <div
+                    *ngIf="editForm.get('firstName').invalid && (editForm.get('firstName').dirty || editForm.get('firstName').touched)">
+                    <small class="form-text text-danger" *ngIf="editForm.get('firstName').errors.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" for="field_birthDate">Birth Date</label>
+                <div class="d-flex">
+                    <input id="field_birthDate" type="datetime-local" class="form-control" name="birthDate"
+                        formControlName="birthDate" placeholder="YYYY-MM-DD HH:mm" />
+                </div>
+                <div
+                    *ngIf="editForm.get('birthDate').invalid && (editForm.get('birthDate').dirty || editForm.get('birthDate').touched)">
+                    <small class="form-text text-danger" *ngIf="editForm.get('birthDate').errors.required">
+                        This field is required.
+                    </small>
+                    <small class="form-text text-danger"
+                        [hidden]="!editForm.get('birthDate').errors?.ZonedDateTimelocal">
+                        This field should be a date and time.
+                    </small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" for="field_sex">Sex</label>
+                <select class="form-control" name="sex" formControlName="sex" id="field_sex">
+                    <option value="MASCULINO">MASCULINO</option>
+                    <option value="FEMENINO">FEMENINO</option>
+                </select>
+                <div *ngIf="editForm.get('sex').invalid && (editForm.get('sex').dirty || editForm.get('sex').touched)">
+                    <small class="form-text text-danger" *ngIf="editForm.get('sex').errors.required">
+                        This field is required.
+                    </small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" for="field_phone">Phone</label>
+                <input type="number" class="form-control" name="phone" id="field_phone" formControlName="phone" />
+                <div
+                    *ngIf="editForm.get('phone').invalid && (editForm.get('phone').dirty || editForm.get('phone').touched)">
+                    <small class="form-text text-danger" *ngIf="editForm.get('phone').errors.required">
+                        This field is required.
+                    </small>
+                    <small class="form-text text-danger" [hidden]="!editForm.get('phone')?.errors?.number">
+                        This field should be a number.
+                    </small>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" for="field_email">Email</label>
+                <input type="text" class="form-control" name="email" id="field_email" formControlName="email" />
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" for="field_objective">Objective</label>
+                <select class="form-control" name="objective" formControlName="objective" id="field_objective">
+                    <option value="MUSCULACION">MUSCULACION</option>
+                    <option value="FITNESS">FITNESS</option>
+                    <option value="CULTURISMO">CULTURISMO</option>
+                    <option value="DEPORTE_CONTACTO">DEPORTE_CONTACTO</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" for="field_observations">Observations</label>
+                <input type="text" class="form-control" name="observations" id="field_observations"
+                    formControlName="observations" />
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" for="field_creationDate">Creation Date</label>
+                <div class="d-flex">
+                    <input id="field_creationDate" type="datetime-local" class="form-control" name="creationDate"
+                        formControlName="creationDate" placeholder="YYYY-MM-DD HH:mm" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-control-label" for="field_isActive">Is Active</label>
+                <input type="checkbox" class="form-control" name="isActive" id="field_isActive"
+                    formControlName="isActive" />
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+                <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+            </button>
+            <button id="jhi-confirm-delete-customer" type="submit" class="btn btn-success">
+                <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Guardar</span>
+            </button>
+        </div>
+</form>

@@ -19,7 +19,7 @@
             <th jhiSortBy="arm"><span>Arm</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="ribCage"><span>Rib Cage</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="leg"><span>Leg</span> <fa-icon [icon]="'sort'"></fa-icon></th>
-            <th jhiSortBy="customer.name"><span>Customer</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="customer.id"><span>Customer</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
             </thead>
@@ -32,7 +32,7 @@
                 <td>{{measure.leg}}</td>
                 <td>
                     <div *ngIf="measure.customer">
-                        <a [routerLink]="['../customer', measure.customer?.name, 'view' ]" >{{measure.customer?.name}}</a>
+                        <a [routerLink]="['../customer', measure.customer?.id, 'view' ]" >{{measure.customer?.id}}</a>
                     </div>
                 </td>
                 <td class="text-right">

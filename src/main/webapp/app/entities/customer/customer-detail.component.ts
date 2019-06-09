@@ -1,14 +1,12 @@
 import { Observable } from 'rxjs';
 import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Validators, FormBuilder } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { CustomerService } from 'app/entities/customer';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
-import { ICustomer, Customer } from 'app/shared/model/customer.model';
-import moment = require('moment');
+import { ICustomer } from 'app/shared/model/customer.model';
 
 @Component({
   selector: 'jhi-customer-detail',
@@ -16,23 +14,9 @@ import moment = require('moment');
   styleUrls: ['./customer.scss']
 })
 export class CustomerDetailComponent implements OnInit {
-  customer: ICustomer;
   closeResult: string;
   isSaving: boolean;
-
-  editForm = this.fb.group({
-    id: [],
-    name: [null, [Validators.required]],
-    firstName: [null, [Validators.required]],
-    birthDate: [null, [Validators.required]],
-    sex: [null, [Validators.required]],
-    phone: [null, [Validators.required]],
-    email: [],
-    objective: [],
-    observations: [],
-    creationDate: [],
-    isActive: []
-  });
+  customer: ICustomer;
 
   constructor(
     protected activatedRoute: ActivatedRoute,
@@ -44,6 +28,7 @@ export class CustomerDetailComponent implements OnInit {
   ngOnInit() {
     this.activatedRoute.data.subscribe(({ customer }) => {
       this.customer = customer;
+      this.customerService.customer = customer;
     });
   }
 
@@ -51,63 +36,19 @@ export class CustomerDetailComponent implements OnInit {
     window.history.back();
   }
 
-  /* Customer Functions */
-  updateForm(customer: ICustomer) {
-    this.editForm.patchValue({
-      id: customer.id,
-      name: customer.name,
-      firstName: customer.firstName,
-      birthDate: customer.birthDate != null ? customer.birthDate.format(DATE_TIME_FORMAT) : null,
-      sex: customer.sex,
-      phone: customer.phone,
-      email: customer.email,
-      objective: customer.objective,
-      observations: customer.observations,
-      creationDate: customer.creationDate != null ? customer.creationDate.format(DATE_TIME_FORMAT) : null,
-      isActive: customer.isActive
-    });
-  }
-
   save(type: string) {
-    debugger;
     this.isSaving = true;
     if (type == 'status') {
-      this.customer.isActive = !this.customer.isActive;
-      this.customerService.update(this.customer).subscribe(res => {
-        this.customer = res.body;
+      this.customerService.customer.isActive = !this.customerService.customer.isActive;
+      this.customerService.update(this.customerService.customer).subscribe(res => {
+        this.customerService.customer = res.body;
         this.onSaveSuccess();
       });
-    } else {
-      const customer = this.createFromForm();
-      if (customer.id !== undefined) {
-        this.subscribeToSaveResponse(this.customerService.update(customer));
-      }
     }
-  }
-
-  private createFromForm(): ICustomer {
-    const entity = {
-      ...new Customer(),
-      id: this.customer.id,
-      name: this.editForm.get(['name']).value,
-      firstName: this.editForm.get(['firstName']).value,
-      birthDate:
-        this.editForm.get(['birthDate']).value != null ? moment(this.editForm.get(['birthDate']).value, DATE_TIME_FORMAT) : undefined,
-      sex: this.editForm.get(['sex']).value,
-      phone: this.editForm.get(['phone']).value,
-      email: this.editForm.get(['email']).value,
-      objective: this.editForm.get(['objective']).value,
-      observations: this.editForm.get(['observations']).value,
-      creationDate:
-        this.editForm.get(['creationDate']).value != null ? moment(this.editForm.get(['creationDate']).value, DATE_TIME_FORMAT) : undefined,
-      isActive: this.editForm.get(['isActive']).value
-    };
-    return entity;
   }
 
   /* Modal Functions */
   open(content) {
-    this.updateForm(this.customer);
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
       result => {
         this.closeResult = `Closed with: ${result}`;
@@ -131,7 +72,7 @@ export class CustomerDetailComponent implements OnInit {
   protected subscribeToSaveResponse(result: Observable<HttpResponse<ICustomer>>) {
     result.subscribe(
       (res: HttpResponse<ICustomer>) => {
-        this.customer = res.body;
+        this.customerService.customer = res.body;
         this.onSaveSuccess();
       },
       (res: HttpErrorResponse) => this.onSaveError()

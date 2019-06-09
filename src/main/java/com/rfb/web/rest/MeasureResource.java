@@ -3,6 +3,8 @@ package com.rfb.web.rest;
 import com.rfb.domain.Measure;
 import com.rfb.repository.MeasureRepository;
 import com.rfb.web.rest.errors.BadRequestAlertException;
+import com.rfb.service.dto.MeasureCriteria;
+import com.rfb.service.MeasureQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -40,9 +42,11 @@ public class MeasureResource {
     private String applicationName;
 
     private final MeasureRepository measureRepository;
+    private final MeasureQueryService measureQueryService;
 
-    public MeasureResource(MeasureRepository measureRepository) {
+    public MeasureResource(MeasureRepository measureRepository, MeasureQueryService measureQueryService) {
         this.measureRepository = measureRepository;
+        this.measureQueryService = measureQueryService;
     }
 
     /**
@@ -89,14 +93,27 @@ public class MeasureResource {
      * {@code GET  /measures} : get all the measures.
      *
      * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of measures in body.
      */
     @GetMapping("/measures")
-    public ResponseEntity<List<Measure>> getAllMeasures(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
-        log.debug("REST request to get a page of Measures");
-        Page<Measure> page = measureRepository.findAll(pageable);
+    public ResponseEntity<List<Measure>> getAllMeasures(MeasureCriteria criteria, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
+        log.debug("REST request to get Measures by criteria: {}", criteria);
+        Page<Measure> page = measureQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+    * {@code GET  /measures/count} : count all the measures.
+    *
+    * @param criteria the criteria which the requested entities should match.
+    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+    */
+    @GetMapping("/measures/count")
+    public ResponseEntity<Long> countMeasures(MeasureCriteria criteria) {
+        log.debug("REST request to count Measures by criteria: {}", criteria);
+        return ResponseEntity.ok().body(measureQueryService.countByCriteria(criteria));
     }
 
     /**

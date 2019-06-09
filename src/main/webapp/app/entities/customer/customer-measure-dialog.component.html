@@ -1,0 +1,50 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+    <div class="modal-header">
+        <h4 class="modal-title">Registrar Medidas</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_creationDate">Creation Date</label>
+            <div class="d-flex">
+                <input id="field_creationDate" type="datetime-local" class="form-control" name="creationDate"
+                    formControlName="creationDate" placeholder="YYYY-MM-DD HH:mm" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_arm">Arm</label>
+            <input type="number" class="form-control" name="arm" id="field_arm" formControlName="arm" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_ribCage">Rib Cage</label>
+            <input type="number" class="form-control" name="ribCage" id="field_ribCage" formControlName="ribCage" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_leg">Leg</label>
+            <input type="number" class="form-control" name="leg" id="field_leg" formControlName="leg" />
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" for="field_customer">Customer</label>
+            <select class="form-control" id="field_customer" name="customer" formControlName="customer">
+                <option [ngValue]="null"></option>
+                <option
+                    [ngValue]="customerOption.id === editForm.get('customer').value?.id ? editForm.get('customer').value : customerOption"
+                    *ngFor="let customerOption of customers; trackBy: trackCustomerById">{{customerOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+                <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+            </button>
+            <button id="jhi-confirm-delete-customer" type="submit" class="btn btn-success">
+                <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Guardar</span>
+            </button>
+        </div>
+</form>

@@ -1,3 +1,5 @@
+import { CustomerMeasurePopupComponent } from './customer-measure-dialog.component';
+import { CustomerEditPopupComponent } from './customer-edit-dialog.component';
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
@@ -80,6 +82,40 @@ export const customerPopupRoute: Routes = [
   {
     path: ':id/delete',
     component: CustomerDeletePopupComponent,
+    resolve: {
+      customer: CustomerResolve
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'Customers'
+    },
+    canActivate: [UserRouteAccessService],
+    outlet: 'popup'
+  }
+];
+
+/* Edit Customer Info */
+export const customerEditPopupRoute: Routes = [
+  {
+    path: ':id/editInfo',
+    component: CustomerEditPopupComponent,
+    resolve: {
+      customer: CustomerResolve
+    },
+    data: {
+      authorities: ['ROLE_USER'],
+      pageTitle: 'Customers'
+    },
+    canActivate: [UserRouteAccessService],
+    outlet: 'popup'
+  }
+];
+
+/* Register Customer Measure */
+export const customerMeasurePopupRoute: Routes = [
+  {
+    path: ':id/customerMeasure',
+    component: CustomerMeasurePopupComponent,
     resolve: {
       customer: CustomerResolve
     },
