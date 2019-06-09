@@ -1,0 +1,40 @@
+{
+    "name": "Training",
+    "fields": [
+        {
+            "fieldName": "creationDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipName": "customer",
+            "otherEntityName": "customer",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "trainingDay",
+            "otherEntityRelationshipName": "training",
+            "javadoc": "Training Relationships",
+            "relationshipName": "trainingDay"
+        }
+    ],
+    "changelogDate": "20190605162241",
+    "entityTableName": "training",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

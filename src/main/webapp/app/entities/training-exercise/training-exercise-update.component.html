@@ -1,0 +1,64 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-training-exercise-heading">Create or edit a Training Exercise</h2>
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+                <div class="form-group" [hidden]="!trainingExercise.id">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id"
+                        readonly />
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_creationDate">Creation Date</label>
+                    <div class="d-flex">
+                        <input id="field_creationDate" type="datetime-local" class="form-control" name="creationDate" formControlName="creationDate" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_trainingNumber">Training Number</label>
+                    <input type="number" class="form-control" name="trainingNumber" id="field_trainingNumber"
+                           formControlName="trainingNumber"/>
+                    <div *ngIf="editForm.get('trainingNumber').invalid && (editForm.get('trainingNumber').dirty || editForm.get('trainingNumber').touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('trainingNumber').errors.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('trainingNumber')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_description">Description</label>
+                    <input type="text" class="form-control" name="description" id="field_description"
+                           formControlName="description"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_trainingDay">Training Day</label>
+                    <select class="form-control" id="field_trainingDay" name="trainingDay" formControlName="trainingDay">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="trainingDayOption.id === editForm.get('trainingDay').value?.id ? editForm.get('trainingDay').value : trainingDayOption" *ngFor="let trainingDayOption of trainingdays; trackBy: trackTrainingDayById">{{trainingDayOption.id}}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_exercise">Exercise</label>
+                    <select class="form-control" id="field_exercise" name="exercise" formControlName="exercise">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="exerciseOption.id === editForm.get('exercise').value?.id ? editForm.get('exercise').value : exerciseOption" *ngFor="let exerciseOption of exercises; trackBy: trackExerciseById">{{exerciseOption.id}}</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="previousState()">
+                    <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

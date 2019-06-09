@@ -1,0 +1,13 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+
+.active-cyan-4 input[type='text']:focus:not([readonly]) {
+  border: 1px solid #4dd0e1;
+  box-shadow: 0 0 0 1px #4dd0e1;
+}
+
+.span-customer-info {
+  float: left;
+  font-size: 10px;
+  font-weight: bold;
+}

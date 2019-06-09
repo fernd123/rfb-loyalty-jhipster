@@ -1,0 +1,98 @@
+{
+    "name": "Customer",
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "firstName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "birthDate",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "sex",
+            "fieldType": "Sex",
+            "fieldValues": "MASCULINO,FEMENINO",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "phone",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "email",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "objective",
+            "fieldType": "Goal",
+            "fieldValues": "MUSCULACION,FITNESS,CULTURISMO,DEPORTE_CONTACTO"
+        },
+        {
+            "fieldName": "observations",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "creationDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "isActive",
+            "fieldType": "Boolean"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "measure",
+            "otherEntityRelationshipName": "customer",
+            "javadoc": "Customer Relationships",
+            "relationshipName": "customerMeasure"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "training",
+            "otherEntityRelationshipName": "customer",
+            "relationshipName": "customerTraining"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "diet",
+            "otherEntityRelationshipName": "customer",
+            "relationshipName": "customerDiet"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "customerDate",
+            "otherEntityRelationshipName": "customer",
+            "relationshipName": "customerDate"
+        }
+    ],
+    "changelogDate": "20190605161331",
+    "entityTableName": "customer",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "serviceClass": "no",
+    "jpaMetamodelFiltering": true,
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "applications": "*"
+}

@@ -11,6 +11,22 @@
     <property name="floatType" value="float" dbms="mysql, oracle, mssql, mariadb"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190605161331_added_entity_Customer.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190605162240_added_entity_Measure.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190605162241_added_entity_Training.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190605162242_added_entity_TrainingDay.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190605162243_added_entity_TrainingExercise.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190605162244_added_entity_Exercise.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190605162245_added_entity_Diet.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190605162246_added_entity_DietFood.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190605162247_added_entity_CustomerDate.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="config/liquibase/changelog/20190605162240_added_entity_constraints_Measure.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190605162241_added_entity_constraints_Training.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190605162242_added_entity_constraints_TrainingDay.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190605162243_added_entity_constraints_TrainingExercise.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190605162245_added_entity_constraints_Diet.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190605162246_added_entity_constraints_DietFood.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20190605162247_added_entity_constraints_CustomerDate.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>

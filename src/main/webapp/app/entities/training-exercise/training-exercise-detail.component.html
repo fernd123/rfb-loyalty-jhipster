@@ -1,0 +1,47 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="trainingExercise">
+            <h2><span>Training Exercise</span> {{trainingExercise.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Creation Date</span></dt>
+                <dd>
+                    <span>{{trainingExercise.creationDate}}</span>
+                </dd>
+                <dt><span>Training Number</span></dt>
+                <dd>
+                    <span>{{trainingExercise.trainingNumber}}</span>
+                </dd>
+                <dt><span>Description</span></dt>
+                <dd>
+                    <span>{{trainingExercise.description}}</span>
+                </dd>
+                <dt><span>Training Day</span></dt>
+                <dd>
+                    <div *ngIf="trainingExercise.trainingDay">
+                        <a [routerLink]="['/training-day', trainingExercise.trainingDay?.id, 'view']">{{trainingExercise.trainingDay?.id}}</a>
+                    </div>
+                </dd>
+                <dt><span>Exercise</span></dt>
+                <dd>
+                    <div *ngIf="trainingExercise.exercise">
+                        <a [routerLink]="['/exercise', trainingExercise.exercise?.id, 'view']">{{trainingExercise.exercise?.id}}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/training-exercise', trainingExercise.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

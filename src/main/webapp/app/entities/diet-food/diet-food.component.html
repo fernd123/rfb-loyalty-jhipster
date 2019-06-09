@@ -1,0 +1,62 @@
+<div>
+    <h2 id="page-heading">
+        <span>Diet Foods</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-diet-food" [routerLink]="['/diet-food/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Create new Diet Food
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="table-responsive" *ngIf="dietFoods">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span>ID</span></th>
+            <th><span>Creation Date</span></th>
+            <th><span>Description</span></th>
+            <th><span>Diet</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let dietFood of dietFoods ;trackBy: trackId">
+                <td><a [routerLink]="['/diet-food', dietFood.id, 'view' ]">{{dietFood.id}}</a></td>
+                <td>{{dietFood.creationDate | date:'medium'}}</td>
+                <td>{{dietFood.description}}</td>
+                <td>
+                    <div *ngIf="dietFood.diet">
+                        <a [routerLink]="['../diet', dietFood.diet?.id, 'view' ]" >{{dietFood.diet?.id}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/diet-food', dietFood.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/diet-food', dietFood.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', 'diet-food', { outlets: { popup: dietFood.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

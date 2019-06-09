@@ -1,10 +1,93 @@
+
+//Training App Schema
+
 entity Customer{
 	name String required,
     firstName String required,
     birthDate Instant required,
+    sex Sex required,
     phone Integer required,
     email String,
+    objective Goal,
     observations String,
     creationDate Instant,
     isActive Boolean
 }
+
+enum Sex {
+    MASCULINO, FEMENINO
+}
+
+enum Goal {
+    MUSCULACION, FITNESS, CULTURISMO, DEPORTE_CONTACTO
+}
+
+entity Measure{
+	creationDate Instant,
+    arm Double,
+    ribCage Double,
+    leg Double
+}
+
+entity Training{
+	creationDate Instant,
+    name String required
+}
+
+entity TrainingDay{
+	creationDate Instant,
+    name String required
+}
+
+entity TrainingExercise{
+	creationDate Instant,
+    trainingNumber Integer required,
+    description String
+}
+
+entity Exercise{
+	creationDate Instant,
+    name String required,
+    description String,
+    url String
+}
+
+entity Diet{
+	creationDate Instant,
+    name String required
+}
+
+entity DietFood{
+	creationDate Instant,
+    description String required
+}
+
+entity CustomerDate{
+	creationDate Instant,
+    observations String,
+    isActive Boolean
+}
+
+relationship OneToMany {
+
+	/** Customer Relationships **/
+	Customer{customerMeasure} to Measure,
+	Customer{customerTraining} to Training,
+    Customer{customerDiet} to Diet,
+    Customer{customerDate} to CustomerDate,
+    
+    /** Training Relationships **/
+    Training{trainingDay} to TrainingDay,
+    TrainingDay{trainingExercise} to TrainingExercise,
+    
+    /** Diet Relationships **/
+    Diet{dietFood} to DietFood,
+    Exercise{exerciseTraining} to TrainingExercise
+}
+
+// Set pagination options
+paginate Customer, Exercise with infinite-scroll
+paginate Measure, Training, Diet with pagination
+
+// Set an angular suffix
+// angularSuffix * with mySuffix

@@ -1,0 +1,35 @@
+{
+  "name": "Measure",
+  "fields": [{
+      "fieldName": "creationDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "arm",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "ribCage",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "leg",
+      "fieldType": "Double"
+    }
+  ],
+  "relationships": [{
+    "relationshipName": "customer",
+    "otherEntityName": "customer",
+    "relationshipType": "many-to-one",
+    "otherEntityField": "id"
+  }],
+  "changelogDate": "20190605162240",
+  "entityTableName": "measure",
+  "dto": "no",
+  "pagination": "pagination",
+  "serviceClass": "no",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "clientRootFolder": "",
+  "applications": "*"
+}

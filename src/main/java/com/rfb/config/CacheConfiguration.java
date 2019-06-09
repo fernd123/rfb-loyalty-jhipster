@@ -45,6 +45,23 @@ public class CacheConfiguration {
             createCache(cm, com.rfb.domain.User.class.getName() + ".authorities");
             createCache(cm, com.rfb.domain.PersistentToken.class.getName());
             createCache(cm, com.rfb.domain.User.class.getName() + ".persistentTokens");
+            createCache(cm, com.rfb.domain.Customer.class.getName());
+            createCache(cm, com.rfb.domain.Customer.class.getName() + ".customerMeasures");
+            createCache(cm, com.rfb.domain.Customer.class.getName() + ".customerTrainings");
+            createCache(cm, com.rfb.domain.Customer.class.getName() + ".customerDiets");
+            createCache(cm, com.rfb.domain.Customer.class.getName() + ".customerDates");
+            createCache(cm, com.rfb.domain.Measure.class.getName());
+            createCache(cm, com.rfb.domain.Training.class.getName());
+            createCache(cm, com.rfb.domain.Training.class.getName() + ".trainingDays");
+            createCache(cm, com.rfb.domain.TrainingDay.class.getName());
+            createCache(cm, com.rfb.domain.TrainingDay.class.getName() + ".trainingExercises");
+            createCache(cm, com.rfb.domain.TrainingExercise.class.getName());
+            createCache(cm, com.rfb.domain.Exercise.class.getName());
+            createCache(cm, com.rfb.domain.Exercise.class.getName() + ".exerciseTrainings");
+            createCache(cm, com.rfb.domain.Diet.class.getName());
+            createCache(cm, com.rfb.domain.Diet.class.getName() + ".dietFoods");
+            createCache(cm, com.rfb.domain.DietFood.class.getName());
+            createCache(cm, com.rfb.domain.CustomerDate.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

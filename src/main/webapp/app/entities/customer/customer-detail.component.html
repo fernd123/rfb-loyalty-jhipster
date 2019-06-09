@@ -1,0 +1,322 @@
+<!--<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="customer">
+            <h2><span>Customer</span> {{customer.id}}</h2>
+            <hr>
+            <jhi-alert-error></jhi-alert-error>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Name</span></dt>
+                <dd>
+                    <span>{{customer.name}}</span>
+                </dd>
+                <dt><span>First Name</span></dt>
+                <dd>
+                    <span>{{customer.firstName}}</span>
+                </dd>
+                <dt><span>Birth Date</span></dt>
+                <dd>
+                    <span>{{customer.birthDate}}</span>
+                </dd>
+                <dt><span>Sex</span></dt>
+                <dd>
+                    <span>{{customer.sex}}</span>
+                </dd>
+                <dt><span>Phone</span></dt>
+                <dd>
+                    <span>{{customer.phone}}</span>
+                </dd>
+                <dt><span>Email</span></dt>
+                <dd>
+                    <span>{{customer.email}}</span>
+                </dd>
+                <dt><span>Objective</span></dt>
+                <dd>
+                    <span>{{customer.objective}}</span>
+                </dd>
+                <dt><span>Observations</span></dt>
+                <dd>
+                    <span>{{customer.observations}}</span>
+                </dd>
+                <dt><span>Creation Date</span></dt>
+                <dd>
+                    <span>{{customer.creationDate}}</span>
+                </dd>
+                <dt><span>Is Active</span></dt>
+                <dd>
+                    <span>{{customer.isActive}}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon [icon]="'arrow-left'"></fa-icon>&nbsp;<span> Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/customer', customer.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
+-->
+
+<div class="container">
+        <jhi-alert-error></jhi-alert-error>
+
+    <div *ngIf="customer">
+        <div class="row">
+
+            <div class="col-12 col-md-8 text-center">
+
+                <table class="table table-bordered">
+                    <thead>
+                        <tr class="bg-info">
+                            <td>Información Personal</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="span-customer-info">Nombre</span>{{customer.name | titlecase }}
+                                {{customer.firstName | titlecase }}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="span-customer-info">Teléfono</span>{{customer.phone}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="span-customer-info">Email</span>{{customer.email}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="span-customer-info">Objetivo</span>{{customer.objective}}</td>
+                        </tr>
+                        <tr>
+                            <td><span class="span-customer-info">Observaciones</span>{{customer.observations}}</td>
+                        </tr>
+                        <tr>
+                            <td><span
+                                    class="span-customer-info">Tipo</span>{{customer.isActive ? 'Cliente Activo' : 'Cliente Inactivo'}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+
+
+            <div class="col">
+                Acciones
+                <hr>
+                <div class="row no-gutters">
+                    <button type="button" (click)="open(content)" class="btn btn-primary btn-block">
+                        <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Editar Información</span>
+                    </button>
+                    <button type="button" (click)="open(measure)" class="btn btn-warning btn-block">
+                        <fa-icon [icon]="'list'"></fa-icon>&nbsp;<span> Registrar Medidas</span>
+                    </button>
+                    <button type="button" (click)="open(training)" class="btn btn-info btn-block">
+                        <fa-icon [icon]="'book'"></fa-icon>&nbsp;<span>Registrar Entrenamiento</span>
+                    </button>
+                    <button type="button" (click)="open(diet)" class="btn btn-success btn-block">
+                        <fa-icon [icon]="'heart'"></fa-icon>&nbsp;<span>Registrar Dieta</span>
+                    </button>
+                    <button type="button" (click)="open(status)" class="btn btn-secondary btn-block">
+                        &nbsp;<span>{{customer.isActive ? 'Dar de Baja': 'Reactivar Cliente'}}</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- EDIT FORM -->
+<ng-template #content let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+            <form name="editForm" role="form" novalidate (ngSubmit)="save('customer')" [formGroup]="editForm">
+                <div>
+                    <jhi-alert-error></jhi-alert-error>
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_name">Name</label>
+                        <input type="text" class="form-control" name="name" id="field_name" formControlName="name" />
+                        <div
+                            *ngIf="editForm.get('name').invalid && (editForm.get('name').dirty || editForm.get('name').touched)">
+                            <small class="form-text text-danger" *ngIf="editForm.get('name').errors.required">
+                                This field is required.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_firstName">First Name</label>
+                        <input type="text" class="form-control" name="firstName" id="field_firstName"
+                            formControlName="firstName" />
+                        <div
+                            *ngIf="editForm.get('firstName').invalid && (editForm.get('firstName').dirty || editForm.get('firstName').touched)">
+                            <small class="form-text text-danger" *ngIf="editForm.get('firstName').errors.required">
+                                This field is required.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_birthDate">Birth Date</label>
+                        <div class="d-flex">
+                            <input id="field_birthDate" type="datetime-local" class="form-control" name="birthDate"
+                                formControlName="birthDate" placeholder="YYYY-MM-DD HH:mm" />
+                        </div>
+                        <div
+                            *ngIf="editForm.get('birthDate').invalid && (editForm.get('birthDate').dirty || editForm.get('birthDate').touched)">
+                            <small class="form-text text-danger" *ngIf="editForm.get('birthDate').errors.required">
+                                This field is required.
+                            </small>
+                            <small class="form-text text-danger"
+                                [hidden]="!editForm.get('birthDate').errors?.ZonedDateTimelocal">
+                                This field should be a date and time.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_sex">Sex</label>
+                        <select class="form-control" name="sex" formControlName="sex" id="field_sex">
+                            <option value="MASCULINO">MASCULINO</option>
+                            <option value="FEMENINO">FEMENINO</option>
+                        </select>
+                        <div
+                            *ngIf="editForm.get('sex').invalid && (editForm.get('sex').dirty || editForm.get('sex').touched)">
+                            <small class="form-text text-danger" *ngIf="editForm.get('sex').errors.required">
+                                This field is required.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_phone">Phone</label>
+                        <input type="number" class="form-control" name="phone" id="field_phone"
+                            formControlName="phone" />
+                        <div
+                            *ngIf="editForm.get('phone').invalid && (editForm.get('phone').dirty || editForm.get('phone').touched)">
+                            <small class="form-text text-danger" *ngIf="editForm.get('phone').errors.required">
+                                This field is required.
+                            </small>
+                            <small class="form-text text-danger" [hidden]="!editForm.get('phone')?.errors?.number">
+                                This field should be a number.
+                            </small>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_email">Email</label>
+                        <input type="text" class="form-control" name="email" id="field_email" formControlName="email" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_objective">Objective</label>
+                        <select class="form-control" name="objective" formControlName="objective" id="field_objective">
+                            <option value="MUSCULACION">MUSCULACION</option>
+                            <option value="FITNESS">FITNESS</option>
+                            <option value="CULTURISMO">CULTURISMO</option>
+                            <option value="DEPORTE_CONTACTO">DEPORTE_CONTACTO</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_observations">Observations</label>
+                        <input type="text" class="form-control" name="observations" id="field_observations"
+                            formControlName="observations" />
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_creationDate">Creation Date</label>
+                        <div class="d-flex">
+                            <input id="field_creationDate" type="datetime-local" class="form-control"
+                                name="creationDate" formControlName="creationDate" placeholder="YYYY-MM-DD HH:mm" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-control-label" for="field_isActive">Is Active</label>
+                        <input type="checkbox" class="form-control" name="isActive" id="field_isActive"
+                            formControlName="isActive" />
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="cancel-save" class="btn btn-secondary"  (click)="modal.dismiss('Cross click')">
+                        <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+                    </button>
+                    <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving"
+                        class="btn btn-primary">
+                        <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Save</span>
+                    </button>
+                </div>
+            </form>
+    </div>
+
+</ng-template>
+
+
+<!-- ADD MEASURE -->
+<ng-template #measure let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Registrar Medidas</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    </div>
+</ng-template>
+
+<!-- ADD TRAINING -->
+<ng-template #training let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Registrar Entrenamiento</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    </div>
+</ng-template>
+
+<!-- ADD DIET -->
+<ng-template #diet let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Registrar Dieta</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Save</button>
+    </div>
+</ng-template>
+
+<!-- MANAGE STATUS -->
+<ng-template #status let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Dar de baja</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        ¿Estás seguro que deseas dar de baja al cliente?
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Cross click')">Cancelar</button>
+        <button type="button" class="btn btn-outline-dark" (click)="save('status')">Confirmar</button>
+    </div>
+</ng-template>
