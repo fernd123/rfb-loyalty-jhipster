@@ -10,6 +10,8 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.Objects;
+import org.springframework.format.annotation.DateTimeFormat;
+
 
 /**
  * A Measure.
@@ -26,6 +28,7 @@ public class Measure implements Serializable {
     private Long id;
 
     @Column(name = "creation_date")
+	@DateTimeFormat(pattern="dd/MM/yyyy HH:mm")
     private Instant creationDate;
 
     @Column(name = "arm")
@@ -40,6 +43,11 @@ public class Measure implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties("measures")
     private Customer customer;
+
+    @PrePersist
+	public void prePersist() {
+		this.creationDate =  Instant.now();
+	}
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {

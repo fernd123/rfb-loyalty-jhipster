@@ -39,22 +39,19 @@ export class CustomerMeasureDialogComponent {
   ) {}
 
   ngOnInit() {
-    debugger;
-    this.updateForm(this.customer);
+    this.updateForm();
   }
 
   clear() {
     this.activeModal.dismiss('cancel');
   }
 
-  updateForm(measure: IMeasure) {
+  updateForm(measure?: IMeasure) {
     this.editForm.patchValue({
-      id: null,
-      creationDate: measure.creationDate != null ? measure.creationDate.format(DATE_TIME_FORMAT) : null,
-      arm: measure.arm,
-      ribCage: measure.ribCage,
-      leg: measure.leg,
-      customer: measure.customer
+      id: measure != undefined ? measure.id : undefined,
+      arm: measure != undefined ? measure.arm : undefined,
+      ribCage: measure != undefined ? measure.ribCage : undefined,
+      leg: measure != undefined ? measure.leg : undefined
     });
   }
 
@@ -81,7 +78,7 @@ export class CustomerMeasureDialogComponent {
       arm: this.editForm.get(['arm']).value,
       ribCage: this.editForm.get(['ribCage']).value,
       leg: this.editForm.get(['leg']).value,
-      customer: this.editForm.get(['customer']).value
+      customer: this.customer
     };
     return entity;
   }
@@ -92,7 +89,7 @@ export class CustomerMeasureDialogComponent {
 
   protected onSaveSuccess() {
     this.isSaving = false;
-    this.previousState();
+    this.activeModal.dismiss();
   }
 
   protected onSaveError() {
