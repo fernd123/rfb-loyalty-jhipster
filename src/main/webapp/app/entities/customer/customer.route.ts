@@ -27,7 +27,6 @@ export class CustomerResolve implements Resolve<ICustomer> {
     const id = route.params['id'] ? route.params['id'] : null;
     const measureId = route.params['measureId'] ? route.params['measureId'] : null;
     const dietId = route.params['dietId'] ? route.params['dietId'] : null;
-    debugger;
     if (measureId == 'null' || measureId == null) {
       this.measureService.measureSelected = null;
     } else {
@@ -41,7 +40,6 @@ export class CustomerResolve implements Resolve<ICustomer> {
     } else {
       forkJoin([this.dietService.find(dietId)]).subscribe(results => {
         this.dietService.dietSelected = results[0].body;
-        debugger;
       });
     }
 

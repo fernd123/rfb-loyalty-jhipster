@@ -28,7 +28,8 @@ export class CustomerDetailComponent implements OnInit {
   @ViewChild('customerValues') customerValuesList;
 
   showMeasure: boolean = true;
-  showData: boolean = false;
+  showTraining: boolean = false;
+  showDiet: boolean = false;
   customerInfoList: any = [];
 
   constructor(
@@ -95,17 +96,22 @@ export class CustomerDetailComponent implements OnInit {
     const childElements = this.customerValuesList.nativeElement.children;
     if (type == 'measure') {
       this.showMeasure = true;
-      this.showData = false;
+      this.showDiet = false;
+      this.showTraining = false;
     } else {
       if (type == 'diet') {
         this.customerInfoList = this.customerService.customer.customerDiets;
+        this.showDiet = true;
+        this.showTraining = false;
+        this.showMeasure = false;
       } else if (type == 'training') {
         this.customerInfoList = this.customerService.customer.customerTrainings;
+        this.showDiet = false;
+        this.showTraining = true;
+        this.showMeasure = false;
       } else {
         this.customerInfoList = this.customerService.customer.customerDates;
       }
-      this.showData = true;
-      this.showMeasure = false;
     }
 
     for (const childLi of childElements) {

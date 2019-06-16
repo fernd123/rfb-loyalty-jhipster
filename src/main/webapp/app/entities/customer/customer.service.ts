@@ -76,6 +76,7 @@ export class CustomerService {
       this.customer.customerMeasures = results[0].body;
       this.customer.customerTrainings = results[1].body;
       this.customer.customerDiets = results[2].body;
+      debugger;
     });
   }
 

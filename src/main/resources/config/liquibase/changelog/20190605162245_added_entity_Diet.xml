@@ -24,6 +24,42 @@
                 <constraints nullable="false" />
             </column>
 
+            <column name="food_1" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="food_2" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="food_3" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="food_4" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="food_5" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="food_6" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="food_7" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="food_8" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="food_9" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="customer_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -51,6 +87,15 @@
             <column name="id" type="numeric"/>
             <column name="creation_date" type="date"/>
             <column name="name" type="string"/>
+            <column name="food_1" type="string"/>
+            <column name="food_2" type="string"/>
+            <column name="food_3" type="string"/>
+            <column name="food_4" type="string"/>
+            <column name="food_5" type="string"/>
+            <column name="food_6" type="string"/>
+            <column name="food_7" type="string"/>
+            <column name="food_8" type="string"/>
+            <column name="food_9" type="string"/>
         </loadData>
     </changeSet>
 

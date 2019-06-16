@@ -221,8 +221,8 @@
 </div>
 
 
-<!-- OTHER DATA -->
-<div class="table-responsive" *ngIf="showData == true">
+<!-- TRAINING DATA -->
+<div class="table-responsive" *ngIf="showTraining == true">
     <table class="table table-striped">
         <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
@@ -237,7 +237,48 @@
         </thead>
         <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
             [infiniteScrollDistance]="0">
-            <tr *ngFor="let diet of customerInfoList ;trackBy: trackId">
+            <tr *ngFor="let training of customerService.customer.customerTrainings ;trackBy: trackId">
+                <td>{{diet.creationDate | date: 'mediumDate'}}</td>
+                <td>{{diet.name}}</td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                            [routerLink]="['/', 'customer', { outlets: { popup: customerService.customer.id + '/customerTraining/' +training.id} }]"
+                            replaceUrl="true" queryParamsHandling="merge" class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Editar</span>
+                        </button>
+                        <button type="submit"
+                            [routerLink]="['/', 'customer', { outlets: { popup: customer.id + '/delete'} }]"
+                            replaceUrl="true" queryParamsHandling="merge" class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Borrar</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<!-- DIET DATA -->
+<div class="table-responsive" *ngIf="showDiet == true">
+    <table class="table table-striped">
+        <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+                <th jhiSortBy="creationDate"><span>Fecha</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th jhiSortBy="name"><span>Nombre</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
+            [infiniteScrollDistance]="0">
+            <tr *ngFor="let diet of customerService.customer.customerDiets ;trackBy: trackId">
                 <td>{{diet.creationDate | date: 'mediumDate'}}</td>
                 <td>{{diet.name}}</td>
                 <td class="text-right">

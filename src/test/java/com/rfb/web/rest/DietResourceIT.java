@@ -46,6 +46,33 @@ public class DietResourceIT {
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
+    private static final String DEFAULT_FOOD_1 = "AAAAAAAAAA";
+    private static final String UPDATED_FOOD_1 = "BBBBBBBBBB";
+
+    private static final String DEFAULT_FOOD_2 = "AAAAAAAAAA";
+    private static final String UPDATED_FOOD_2 = "BBBBBBBBBB";
+
+    private static final String DEFAULT_FOOD_3 = "AAAAAAAAAA";
+    private static final String UPDATED_FOOD_3 = "BBBBBBBBBB";
+
+    private static final String DEFAULT_FOOD_4 = "AAAAAAAAAA";
+    private static final String UPDATED_FOOD_4 = "BBBBBBBBBB";
+
+    private static final String DEFAULT_FOOD_5 = "AAAAAAAAAA";
+    private static final String UPDATED_FOOD_5 = "BBBBBBBBBB";
+
+    private static final String DEFAULT_FOOD_6 = "AAAAAAAAAA";
+    private static final String UPDATED_FOOD_6 = "BBBBBBBBBB";
+
+    private static final String DEFAULT_FOOD_7 = "AAAAAAAAAA";
+    private static final String UPDATED_FOOD_7 = "BBBBBBBBBB";
+
+    private static final String DEFAULT_FOOD_8 = "AAAAAAAAAA";
+    private static final String UPDATED_FOOD_8 = "BBBBBBBBBB";
+
+    private static final String DEFAULT_FOOD_9 = "AAAAAAAAAA";
+    private static final String UPDATED_FOOD_9 = "BBBBBBBBBB";
+
     @Autowired
     private DietRepository dietRepository;
 
@@ -95,7 +122,16 @@ public class DietResourceIT {
     public static Diet createEntity(EntityManager em) {
         Diet diet = new Diet()
             .creationDate(DEFAULT_CREATION_DATE)
-            .name(DEFAULT_NAME);
+            .name(DEFAULT_NAME)
+            .food1(DEFAULT_FOOD_1)
+            .food2(DEFAULT_FOOD_2)
+            .food3(DEFAULT_FOOD_3)
+            .food4(DEFAULT_FOOD_4)
+            .food5(DEFAULT_FOOD_5)
+            .food6(DEFAULT_FOOD_6)
+            .food7(DEFAULT_FOOD_7)
+            .food8(DEFAULT_FOOD_8)
+            .food9(DEFAULT_FOOD_9);
         return diet;
     }
     /**
@@ -107,7 +143,16 @@ public class DietResourceIT {
     public static Diet createUpdatedEntity(EntityManager em) {
         Diet diet = new Diet()
             .creationDate(UPDATED_CREATION_DATE)
-            .name(UPDATED_NAME);
+            .name(UPDATED_NAME)
+            .food1(UPDATED_FOOD_1)
+            .food2(UPDATED_FOOD_2)
+            .food3(UPDATED_FOOD_3)
+            .food4(UPDATED_FOOD_4)
+            .food5(UPDATED_FOOD_5)
+            .food6(UPDATED_FOOD_6)
+            .food7(UPDATED_FOOD_7)
+            .food8(UPDATED_FOOD_8)
+            .food9(UPDATED_FOOD_9);
         return diet;
     }
 
@@ -133,6 +178,15 @@ public class DietResourceIT {
         Diet testDiet = dietList.get(dietList.size() - 1);
         assertThat(testDiet.getCreationDate()).isEqualTo(DEFAULT_CREATION_DATE);
         assertThat(testDiet.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testDiet.getFood1()).isEqualTo(DEFAULT_FOOD_1);
+        assertThat(testDiet.getFood2()).isEqualTo(DEFAULT_FOOD_2);
+        assertThat(testDiet.getFood3()).isEqualTo(DEFAULT_FOOD_3);
+        assertThat(testDiet.getFood4()).isEqualTo(DEFAULT_FOOD_4);
+        assertThat(testDiet.getFood5()).isEqualTo(DEFAULT_FOOD_5);
+        assertThat(testDiet.getFood6()).isEqualTo(DEFAULT_FOOD_6);
+        assertThat(testDiet.getFood7()).isEqualTo(DEFAULT_FOOD_7);
+        assertThat(testDiet.getFood8()).isEqualTo(DEFAULT_FOOD_8);
+        assertThat(testDiet.getFood9()).isEqualTo(DEFAULT_FOOD_9);
     }
 
     @Test
@@ -185,7 +239,16 @@ public class DietResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(diet.getId().intValue())))
             .andExpect(jsonPath("$.[*].creationDate").value(hasItem(DEFAULT_CREATION_DATE.toString())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())));
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].food1").value(hasItem(DEFAULT_FOOD_1.toString())))
+            .andExpect(jsonPath("$.[*].food2").value(hasItem(DEFAULT_FOOD_2.toString())))
+            .andExpect(jsonPath("$.[*].food3").value(hasItem(DEFAULT_FOOD_3.toString())))
+            .andExpect(jsonPath("$.[*].food4").value(hasItem(DEFAULT_FOOD_4.toString())))
+            .andExpect(jsonPath("$.[*].food5").value(hasItem(DEFAULT_FOOD_5.toString())))
+            .andExpect(jsonPath("$.[*].food6").value(hasItem(DEFAULT_FOOD_6.toString())))
+            .andExpect(jsonPath("$.[*].food7").value(hasItem(DEFAULT_FOOD_7.toString())))
+            .andExpect(jsonPath("$.[*].food8").value(hasItem(DEFAULT_FOOD_8.toString())))
+            .andExpect(jsonPath("$.[*].food9").value(hasItem(DEFAULT_FOOD_9.toString())));
     }
     
     @Test
@@ -200,7 +263,16 @@ public class DietResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(diet.getId().intValue()))
             .andExpect(jsonPath("$.creationDate").value(DEFAULT_CREATION_DATE.toString()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
+            .andExpect(jsonPath("$.food1").value(DEFAULT_FOOD_1.toString()))
+            .andExpect(jsonPath("$.food2").value(DEFAULT_FOOD_2.toString()))
+            .andExpect(jsonPath("$.food3").value(DEFAULT_FOOD_3.toString()))
+            .andExpect(jsonPath("$.food4").value(DEFAULT_FOOD_4.toString()))
+            .andExpect(jsonPath("$.food5").value(DEFAULT_FOOD_5.toString()))
+            .andExpect(jsonPath("$.food6").value(DEFAULT_FOOD_6.toString()))
+            .andExpect(jsonPath("$.food7").value(DEFAULT_FOOD_7.toString()))
+            .andExpect(jsonPath("$.food8").value(DEFAULT_FOOD_8.toString()))
+            .andExpect(jsonPath("$.food9").value(DEFAULT_FOOD_9.toString()));
     }
 
     @Test
@@ -283,6 +355,357 @@ public class DietResourceIT {
 
     @Test
     @Transactional
+    public void getAllDietsByFood1IsEqualToSomething() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food1 equals to DEFAULT_FOOD_1
+        defaultDietShouldBeFound("food1.equals=" + DEFAULT_FOOD_1);
+
+        // Get all the dietList where food1 equals to UPDATED_FOOD_1
+        defaultDietShouldNotBeFound("food1.equals=" + UPDATED_FOOD_1);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByFood1IsInShouldWork() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food1 in DEFAULT_FOOD_1 or UPDATED_FOOD_1
+        defaultDietShouldBeFound("food1.in=" + DEFAULT_FOOD_1 + "," + UPDATED_FOOD_1);
+
+        // Get all the dietList where food1 equals to UPDATED_FOOD_1
+        defaultDietShouldNotBeFound("food1.in=" + UPDATED_FOOD_1);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByFood1IsNullOrNotNull() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food1 is not null
+        defaultDietShouldBeFound("food1.specified=true");
+
+        // Get all the dietList where food1 is null
+        defaultDietShouldNotBeFound("food1.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByFood2IsEqualToSomething() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food2 equals to DEFAULT_FOOD_2
+        defaultDietShouldBeFound("food2.equals=" + DEFAULT_FOOD_2);
+
+        // Get all the dietList where food2 equals to UPDATED_FOOD_2
+        defaultDietShouldNotBeFound("food2.equals=" + UPDATED_FOOD_2);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByFood2IsInShouldWork() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food2 in DEFAULT_FOOD_2 or UPDATED_FOOD_2
+        defaultDietShouldBeFound("food2.in=" + DEFAULT_FOOD_2 + "," + UPDATED_FOOD_2);
+
+        // Get all the dietList where food2 equals to UPDATED_FOOD_2
+        defaultDietShouldNotBeFound("food2.in=" + UPDATED_FOOD_2);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByFood2IsNullOrNotNull() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food2 is not null
+        defaultDietShouldBeFound("food2.specified=true");
+
+        // Get all the dietList where food2 is null
+        defaultDietShouldNotBeFound("food2.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByFood3IsEqualToSomething() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food3 equals to DEFAULT_FOOD_3
+        defaultDietShouldBeFound("food3.equals=" + DEFAULT_FOOD_3);
+
+        // Get all the dietList where food3 equals to UPDATED_FOOD_3
+        defaultDietShouldNotBeFound("food3.equals=" + UPDATED_FOOD_3);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByFood3IsInShouldWork() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food3 in DEFAULT_FOOD_3 or UPDATED_FOOD_3
+        defaultDietShouldBeFound("food3.in=" + DEFAULT_FOOD_3 + "," + UPDATED_FOOD_3);
+
+        // Get all the dietList where food3 equals to UPDATED_FOOD_3
+        defaultDietShouldNotBeFound("food3.in=" + UPDATED_FOOD_3);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByFood3IsNullOrNotNull() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food3 is not null
+        defaultDietShouldBeFound("food3.specified=true");
+
+        // Get all the dietList where food3 is null
+        defaultDietShouldNotBeFound("food3.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByFood4IsEqualToSomething() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food4 equals to DEFAULT_FOOD_4
+        defaultDietShouldBeFound("food4.equals=" + DEFAULT_FOOD_4);
+
+        // Get all the dietList where food4 equals to UPDATED_FOOD_4
+        defaultDietShouldNotBeFound("food4.equals=" + UPDATED_FOOD_4);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByFood4IsInShouldWork() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food4 in DEFAULT_FOOD_4 or UPDATED_FOOD_4
+        defaultDietShouldBeFound("food4.in=" + DEFAULT_FOOD_4 + "," + UPDATED_FOOD_4);
+
+        // Get all the dietList where food4 equals to UPDATED_FOOD_4
+        defaultDietShouldNotBeFound("food4.in=" + UPDATED_FOOD_4);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByFood4IsNullOrNotNull() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food4 is not null
+        defaultDietShouldBeFound("food4.specified=true");
+
+        // Get all the dietList where food4 is null
+        defaultDietShouldNotBeFound("food4.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByFood5IsEqualToSomething() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food5 equals to DEFAULT_FOOD_5
+        defaultDietShouldBeFound("food5.equals=" + DEFAULT_FOOD_5);
+
+        // Get all the dietList where food5 equals to UPDATED_FOOD_5
+        defaultDietShouldNotBeFound("food5.equals=" + UPDATED_FOOD_5);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByFood5IsInShouldWork() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food5 in DEFAULT_FOOD_5 or UPDATED_FOOD_5
+        defaultDietShouldBeFound("food5.in=" + DEFAULT_FOOD_5 + "," + UPDATED_FOOD_5);
+
+        // Get all the dietList where food5 equals to UPDATED_FOOD_5
+        defaultDietShouldNotBeFound("food5.in=" + UPDATED_FOOD_5);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByFood5IsNullOrNotNull() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food5 is not null
+        defaultDietShouldBeFound("food5.specified=true");
+
+        // Get all the dietList where food5 is null
+        defaultDietShouldNotBeFound("food5.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByFood6IsEqualToSomething() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food6 equals to DEFAULT_FOOD_6
+        defaultDietShouldBeFound("food6.equals=" + DEFAULT_FOOD_6);
+
+        // Get all the dietList where food6 equals to UPDATED_FOOD_6
+        defaultDietShouldNotBeFound("food6.equals=" + UPDATED_FOOD_6);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByFood6IsInShouldWork() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food6 in DEFAULT_FOOD_6 or UPDATED_FOOD_6
+        defaultDietShouldBeFound("food6.in=" + DEFAULT_FOOD_6 + "," + UPDATED_FOOD_6);
+
+        // Get all the dietList where food6 equals to UPDATED_FOOD_6
+        defaultDietShouldNotBeFound("food6.in=" + UPDATED_FOOD_6);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByFood6IsNullOrNotNull() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food6 is not null
+        defaultDietShouldBeFound("food6.specified=true");
+
+        // Get all the dietList where food6 is null
+        defaultDietShouldNotBeFound("food6.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByFood7IsEqualToSomething() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food7 equals to DEFAULT_FOOD_7
+        defaultDietShouldBeFound("food7.equals=" + DEFAULT_FOOD_7);
+
+        // Get all the dietList where food7 equals to UPDATED_FOOD_7
+        defaultDietShouldNotBeFound("food7.equals=" + UPDATED_FOOD_7);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByFood7IsInShouldWork() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food7 in DEFAULT_FOOD_7 or UPDATED_FOOD_7
+        defaultDietShouldBeFound("food7.in=" + DEFAULT_FOOD_7 + "," + UPDATED_FOOD_7);
+
+        // Get all the dietList where food7 equals to UPDATED_FOOD_7
+        defaultDietShouldNotBeFound("food7.in=" + UPDATED_FOOD_7);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByFood7IsNullOrNotNull() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food7 is not null
+        defaultDietShouldBeFound("food7.specified=true");
+
+        // Get all the dietList where food7 is null
+        defaultDietShouldNotBeFound("food7.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByFood8IsEqualToSomething() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food8 equals to DEFAULT_FOOD_8
+        defaultDietShouldBeFound("food8.equals=" + DEFAULT_FOOD_8);
+
+        // Get all the dietList where food8 equals to UPDATED_FOOD_8
+        defaultDietShouldNotBeFound("food8.equals=" + UPDATED_FOOD_8);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByFood8IsInShouldWork() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food8 in DEFAULT_FOOD_8 or UPDATED_FOOD_8
+        defaultDietShouldBeFound("food8.in=" + DEFAULT_FOOD_8 + "," + UPDATED_FOOD_8);
+
+        // Get all the dietList where food8 equals to UPDATED_FOOD_8
+        defaultDietShouldNotBeFound("food8.in=" + UPDATED_FOOD_8);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByFood8IsNullOrNotNull() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food8 is not null
+        defaultDietShouldBeFound("food8.specified=true");
+
+        // Get all the dietList where food8 is null
+        defaultDietShouldNotBeFound("food8.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByFood9IsEqualToSomething() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food9 equals to DEFAULT_FOOD_9
+        defaultDietShouldBeFound("food9.equals=" + DEFAULT_FOOD_9);
+
+        // Get all the dietList where food9 equals to UPDATED_FOOD_9
+        defaultDietShouldNotBeFound("food9.equals=" + UPDATED_FOOD_9);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByFood9IsInShouldWork() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food9 in DEFAULT_FOOD_9 or UPDATED_FOOD_9
+        defaultDietShouldBeFound("food9.in=" + DEFAULT_FOOD_9 + "," + UPDATED_FOOD_9);
+
+        // Get all the dietList where food9 equals to UPDATED_FOOD_9
+        defaultDietShouldNotBeFound("food9.in=" + UPDATED_FOOD_9);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByFood9IsNullOrNotNull() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where food9 is not null
+        defaultDietShouldBeFound("food9.specified=true");
+
+        // Get all the dietList where food9 is null
+        defaultDietShouldNotBeFound("food9.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllDietsByCustomerIsEqualToSomething() throws Exception {
         // Initialize the database
         Customer customer = CustomerResourceIT.createEntity(em);
@@ -327,7 +750,16 @@ public class DietResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(diet.getId().intValue())))
             .andExpect(jsonPath("$.[*].creationDate").value(hasItem(DEFAULT_CREATION_DATE.toString())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)));
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].food1").value(hasItem(DEFAULT_FOOD_1)))
+            .andExpect(jsonPath("$.[*].food2").value(hasItem(DEFAULT_FOOD_2)))
+            .andExpect(jsonPath("$.[*].food3").value(hasItem(DEFAULT_FOOD_3)))
+            .andExpect(jsonPath("$.[*].food4").value(hasItem(DEFAULT_FOOD_4)))
+            .andExpect(jsonPath("$.[*].food5").value(hasItem(DEFAULT_FOOD_5)))
+            .andExpect(jsonPath("$.[*].food6").value(hasItem(DEFAULT_FOOD_6)))
+            .andExpect(jsonPath("$.[*].food7").value(hasItem(DEFAULT_FOOD_7)))
+            .andExpect(jsonPath("$.[*].food8").value(hasItem(DEFAULT_FOOD_8)))
+            .andExpect(jsonPath("$.[*].food9").value(hasItem(DEFAULT_FOOD_9)));
 
         // Check, that the count call also returns 1
         restDietMockMvc.perform(get("/api/diets/count?sort=id,desc&" + filter))
@@ -376,7 +808,16 @@ public class DietResourceIT {
         em.detach(updatedDiet);
         updatedDiet
             .creationDate(UPDATED_CREATION_DATE)
-            .name(UPDATED_NAME);
+            .name(UPDATED_NAME)
+            .food1(UPDATED_FOOD_1)
+            .food2(UPDATED_FOOD_2)
+            .food3(UPDATED_FOOD_3)
+            .food4(UPDATED_FOOD_4)
+            .food5(UPDATED_FOOD_5)
+            .food6(UPDATED_FOOD_6)
+            .food7(UPDATED_FOOD_7)
+            .food8(UPDATED_FOOD_8)
+            .food9(UPDATED_FOOD_9);
 
         restDietMockMvc.perform(put("/api/diets")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -389,6 +830,15 @@ public class DietResourceIT {
         Diet testDiet = dietList.get(dietList.size() - 1);
         assertThat(testDiet.getCreationDate()).isEqualTo(UPDATED_CREATION_DATE);
         assertThat(testDiet.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testDiet.getFood1()).isEqualTo(UPDATED_FOOD_1);
+        assertThat(testDiet.getFood2()).isEqualTo(UPDATED_FOOD_2);
+        assertThat(testDiet.getFood3()).isEqualTo(UPDATED_FOOD_3);
+        assertThat(testDiet.getFood4()).isEqualTo(UPDATED_FOOD_4);
+        assertThat(testDiet.getFood5()).isEqualTo(UPDATED_FOOD_5);
+        assertThat(testDiet.getFood6()).isEqualTo(UPDATED_FOOD_6);
+        assertThat(testDiet.getFood7()).isEqualTo(UPDATED_FOOD_7);
+        assertThat(testDiet.getFood8()).isEqualTo(UPDATED_FOOD_8);
+        assertThat(testDiet.getFood9()).isEqualTo(UPDATED_FOOD_9);
     }
 
     @Test

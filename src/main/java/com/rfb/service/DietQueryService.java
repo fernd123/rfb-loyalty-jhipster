@@ -89,6 +89,33 @@ public class DietQueryService extends QueryService<Diet> {
             if (criteria.getName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getName(), Diet_.name));
             }
+            if (criteria.getFood1() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getFood1(), Diet_.food1));
+            }
+            if (criteria.getFood2() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getFood2(), Diet_.food2));
+            }
+            if (criteria.getFood3() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getFood3(), Diet_.food3));
+            }
+            if (criteria.getFood4() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getFood4(), Diet_.food4));
+            }
+            if (criteria.getFood5() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getFood5(), Diet_.food5));
+            }
+            if (criteria.getFood6() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getFood6(), Diet_.food6));
+            }
+            if (criteria.getFood7() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getFood7(), Diet_.food7));
+            }
+            if (criteria.getFood8() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getFood8(), Diet_.food8));
+            }
+            if (criteria.getFood9() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getFood9(), Diet_.food9));
+            }
             if (criteria.getCustomerId() != null) {
                 specification = specification.and(buildSpecification(criteria.getCustomerId(),
                     root -> root.join(Diet_.customer, JoinType.LEFT).get(Customer_.id)));

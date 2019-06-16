@@ -17,6 +17,15 @@
             <th jhiSortBy="id"><span>ID</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="creationDate"><span>Creation Date</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="name"><span>Name</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="food1"><span>Food 1</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="food2"><span>Food 2</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="food3"><span>Food 3</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="food4"><span>Food 4</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="food5"><span>Food 5</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="food6"><span>Food 6</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="food7"><span>Food 7</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="food8"><span>Food 8</span> <fa-icon [icon]="'sort'"></fa-icon></th>
+            <th jhiSortBy="food9"><span>Food 9</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th jhiSortBy="customer.id"><span>Customer</span> <fa-icon [icon]="'sort'"></fa-icon></th>
             <th></th>
             </tr>
@@ -26,6 +35,15 @@
                 <td><a [routerLink]="['/diet', diet.id, 'view' ]">{{diet.id}}</a></td>
                 <td>{{diet.creationDate | date:'medium'}}</td>
                 <td>{{diet.name}}</td>
+                <td>{{diet.food1}}</td>
+                <td>{{diet.food2}}</td>
+                <td>{{diet.food3}}</td>
+                <td>{{diet.food4}}</td>
+                <td>{{diet.food5}}</td>
+                <td>{{diet.food6}}</td>
+                <td>{{diet.food7}}</td>
+                <td>{{diet.food8}}</td>
+                <td>{{diet.food9}}</td>
                 <td>
                     <div *ngIf="diet.customer">
                         <a [routerLink]="['../customer', diet.customer?.id, 'view' ]" >{{diet.customer?.id}}</a>

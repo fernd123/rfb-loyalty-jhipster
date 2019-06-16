@@ -6,9 +6,15 @@
     <div class="modal-body">
         <div>
             <jhi-alert-error></jhi-alert-error>
-            <button type="button" (click)="addDietDay()" class="btn btn-primary">
+            <button type="button" (click)="addDietFood()" class="btn btn-primary">
                 <fa-icon [icon]="'plus'"></fa-icon>
             </button>
+
+            <div class="d-flex">
+                <input id="id" type="number" class="form-control" name="id"
+                    formControlName="id" />
+            </div>
+
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label class="form-control-label" for="field_creationDate">Creation Date</label>
@@ -36,7 +42,8 @@
                         <button type="button" (click)="removeDietDay(i)" class="btn btn-remove">
                             <fa-icon [icon]="'times'"></fa-icon>
                         </button>
-                        <textarea rows="4" cols="50" class="form-control" formControlName="description"></textarea>
+                        <textarea rows="4" cols="50" class="form-control" formControlName="description"
+                            name="food{{i+1}}"></textarea>
                     </div>
                 </div>
             </div>

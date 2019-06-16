@@ -34,7 +34,7 @@ export class CustomerDietDialogComponent {
     id: [],
     creationDate: [],
     name: [null, [Validators.required]],
-    items: this.fb.array([this.createItem()])
+    items: this.fb.array([])
   });
 
   constructor(
@@ -53,10 +53,11 @@ export class CustomerDietDialogComponent {
   }
 
   ngOnDestroy() {
+    debugger;
     this.customerService.refreshAll();
   }
 
-  addDietDay() {
+  addDietFood() {
     this.items = this.editForm.get('items') as FormArray;
     this.items.push(this.createItem());
   }
@@ -67,9 +68,9 @@ export class CustomerDietDialogComponent {
     this.items.controls.splice(i, 1);
   }
 
-  createItem(): FormGroup {
+  createItem(description?: string): FormGroup {
     return this.fb.group({
-      description: ''
+      description: description
     });
   }
 
@@ -79,14 +80,57 @@ export class CustomerDietDialogComponent {
 
   updateForm() {
     this.editForm.patchValue({
-      id: this.dietService.dietSelected != undefined ? this.dietService.dietSelected.id : undefined,
+      id: this.dietService.dietSelected != null ? this.dietService.dietSelected.id : undefined,
       creationDate:
-        this.dietService.dietSelected != undefined && this.dietService.dietSelected.creationDate != null
+        this.dietService.dietSelected != null && this.dietService.dietSelected.creationDate != null
           ? this.dietService.dietSelected.creationDate.format(DATE_TIME_FORMAT)
           : moment().format(DATE_TIME_FORMAT),
-      name: this.dietService.dietSelected != undefined ? this.dietService.dietSelected.name : undefined,
+      name: this.dietService.dietSelected != null ? this.dietService.dietSelected.name : undefined,
       customer: this.customerService.customer
     });
+
+    this.items = this.editForm.get('items') as FormArray;
+    if (this.dietService.dietSelected == null) {
+      this.items.push(this.createItem());
+    }
+
+    if (this.dietService.dietSelected != null) {
+      if (this.dietService.dietSelected.food1 != null) {
+        this.items.push(this.createItem(this.dietService.dietSelected.food1));
+      }
+
+      if (this.dietService.dietSelected.food2 != null) {
+        this.items.push(this.createItem(this.dietService.dietSelected.food2));
+      }
+
+      if (this.dietService.dietSelected.food3 != null) {
+        this.items.push(this.createItem(this.dietService.dietSelected.food3));
+      }
+
+      if (this.dietService.dietSelected.food4 != null) {
+        this.items.push(this.createItem(this.dietService.dietSelected.food4));
+      }
+
+      if (this.dietService.dietSelected.food5 != null) {
+        this.items.push(this.createItem(this.dietService.dietSelected.food5));
+      }
+
+      if (this.dietService.dietSelected.food6 != null) {
+        this.items.push(this.createItem(this.dietService.dietSelected.food6));
+      }
+
+      if (this.dietService.dietSelected.food7 != null) {
+        this.items.push(this.createItem(this.dietService.dietSelected.food7));
+      }
+
+      if (this.dietService.dietSelected.food8 != null) {
+        this.items.push(this.createItem(this.dietService.dietSelected.food8));
+      }
+
+      if (this.dietService.dietSelected.food9 != null) {
+        this.items.push(this.createItem(this.dietService.dietSelected.food9));
+      }
+    }
   }
 
   previousState() {
@@ -95,6 +139,7 @@ export class CustomerDietDialogComponent {
 
   save() {
     this.isSaving = true;
+    debugger;
     const diet = this.createFromForm();
     if (diet.id !== undefined) {
       this.subscribeToSaveResponse(this.dietService.update(diet));
@@ -106,10 +151,20 @@ export class CustomerDietDialogComponent {
   private createFromForm(): IDiet {
     const entity = {
       ...new Diet(),
-      //id: this.editForm.get(['id']).value,
+      id: this.editForm.get(['id']).value,
       creationDate:
         this.editForm.get(['creationDate']).value != null ? moment(this.editForm.get(['creationDate']).value, DATE_TIME_FORMAT) : undefined,
       name: this.editForm.get(['name']).value,
+      food1: this.editForm.get('items').value[0] != undefined ? this.editForm.get('items').value[0].description : null,
+      food2: this.editForm.get('items').value[1] != undefined ? this.editForm.get('items').value[1].description : null,
+      food3: this.editForm.get('items').value[2] != undefined ? this.editForm.get('items').value[2].description : null,
+      food4: this.editForm.get('items').value[3] != undefined ? this.editForm.get('items').value[3].description : null,
+      food5: this.editForm.get('items').value[4] != undefined ? this.editForm.get('items').value[4].description : null,
+      food6: this.editForm.get('items').value[5] != undefined ? this.editForm.get('items').value[5].description : null,
+      food7: this.editForm.get('items').value[6] != undefined ? this.editForm.get('items').value[6].description : null,
+      food8: this.editForm.get('items').value[7] != undefined ? this.editForm.get('items').value[7].description : null,
+      food9: this.editForm.get('items').value[8] != undefined ? this.editForm.get('items').value[8].description : null,
+
       customer: this.customer
     };
 
@@ -135,8 +190,6 @@ export class CustomerDietDialogComponent {
     /* Save the Diet Days */
     let itemsArray = this.editForm.get('items').value;
     for (let i in itemsArray) {
-      let dietFood: DietFood = new DietFood(null, null, itemsArray[i].description, this.diet);
-      this.subscribeToSaveDietFoodResponse(this.dietFoodService.create(dietFood));
     }
     this.clear();
   }

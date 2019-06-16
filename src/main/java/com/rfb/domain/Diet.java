@@ -37,6 +37,33 @@ public class Diet implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "food_1")
+    private String food1;
+
+    @Column(name = "food_2")
+    private String food2;
+
+    @Column(name = "food_3")
+    private String food3;
+
+    @Column(name = "food_4")
+    private String food4;
+
+    @Column(name = "food_5")
+    private String food5;
+
+    @Column(name = "food_6")
+    private String food6;
+
+    @Column(name = "food_7")
+    private String food7;
+
+    @Column(name = "food_8")
+    private String food8;
+
+    @Column(name = "food_9")
+    private String food9;
+
     @ManyToOne
     @JsonIgnoreProperties("diets")
     private Customer customer;
@@ -82,6 +109,123 @@ public class Diet implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getFood1() {
+        return food1;
+    }
+
+    public Diet food1(String food1) {
+        this.food1 = food1;
+        return this;
+    }
+
+    public void setFood1(String food1) {
+        this.food1 = food1;
+    }
+
+    public String getFood2() {
+        return food2;
+    }
+
+    public Diet food2(String food2) {
+        this.food2 = food2;
+        return this;
+    }
+
+    public void setFood2(String food2) {
+        this.food2 = food2;
+    }
+
+    public String getFood3() {
+        return food3;
+    }
+
+    public Diet food3(String food3) {
+        this.food3 = food3;
+        return this;
+    }
+
+    public void setFood3(String food3) {
+        this.food3 = food3;
+    }
+
+    public String getFood4() {
+        return food4;
+    }
+
+    public Diet food4(String food4) {
+        this.food4 = food4;
+        return this;
+    }
+
+    public void setFood4(String food4) {
+        this.food4 = food4;
+    }
+
+    public String getFood5() {
+        return food5;
+    }
+
+    public Diet food5(String food5) {
+        this.food5 = food5;
+        return this;
+    }
+
+    public void setFood5(String food5) {
+        this.food5 = food5;
+    }
+
+    public String getFood6() {
+        return food6;
+    }
+
+    public Diet food6(String food6) {
+        this.food6 = food6;
+        return this;
+    }
+
+    public void setFood6(String food6) {
+        this.food6 = food6;
+    }
+
+    public String getFood7() {
+        return food7;
+    }
+
+    public Diet food7(String food7) {
+        this.food7 = food7;
+        return this;
+    }
+
+    public void setFood7(String food7) {
+        this.food7 = food7;
+    }
+
+    public String getFood8() {
+        return food8;
+    }
+
+    public Diet food8(String food8) {
+        this.food8 = food8;
+        return this;
+    }
+
+    public void setFood8(String food8) {
+        this.food8 = food8;
+    }
+
+    public String getFood9() {
+        return food9;
+    }
+
+    public Diet food9(String food9) {
+        this.food9 = food9;
+        return this;
+    }
+
+    public void setFood9(String food9) {
+        this.food9 = food9;
     }
 
     public Customer getCustomer() {
@@ -145,6 +289,15 @@ public class Diet implements Serializable {
             "id=" + getId() +
             ", creationDate='" + getCreationDate() + "'" +
             ", name='" + getName() + "'" +
+            ", food1='" + getFood1() + "'" +
+            ", food2='" + getFood2() + "'" +
+            ", food3='" + getFood3() + "'" +
+            ", food4='" + getFood4() + "'" +
+            ", food5='" + getFood5() + "'" +
+            ", food6='" + getFood6() + "'" +
+            ", food7='" + getFood7() + "'" +
+            ", food8='" + getFood8() + "'" +
+            ", food9='" + getFood9() + "'" +
             "}";
     }
 }

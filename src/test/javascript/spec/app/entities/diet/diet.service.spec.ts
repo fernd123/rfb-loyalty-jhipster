@@ -27,7 +27,20 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Diet(0, currentDate, 'AAAAAAA');
+      elemDefault = new Diet(
+        0,
+        currentDate,
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA'
+      );
     });
 
     describe('Service methods', () => {
@@ -75,7 +88,16 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             creationDate: currentDate.format(DATE_TIME_FORMAT),
-            name: 'BBBBBB'
+            name: 'BBBBBB',
+            food1: 'BBBBBB',
+            food2: 'BBBBBB',
+            food3: 'BBBBBB',
+            food4: 'BBBBBB',
+            food5: 'BBBBBB',
+            food6: 'BBBBBB',
+            food7: 'BBBBBB',
+            food8: 'BBBBBB',
+            food9: 'BBBBBB'
           },
           elemDefault
         );
@@ -99,7 +121,16 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             creationDate: currentDate.format(DATE_TIME_FORMAT),
-            name: 'BBBBBB'
+            name: 'BBBBBB',
+            food1: 'BBBBBB',
+            food2: 'BBBBBB',
+            food3: 'BBBBBB',
+            food4: 'BBBBBB',
+            food5: 'BBBBBB',
+            food6: 'BBBBBB',
+            food7: 'BBBBBB',
+            food8: 'BBBBBB',
+            food9: 'BBBBBB'
           },
           elemDefault
         );

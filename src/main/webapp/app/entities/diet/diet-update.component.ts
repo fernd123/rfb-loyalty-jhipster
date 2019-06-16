@@ -26,6 +26,15 @@ export class DietUpdateComponent implements OnInit {
     id: [],
     creationDate: [],
     name: [null, [Validators.required]],
+    food1: [],
+    food2: [],
+    food3: [],
+    food4: [],
+    food5: [],
+    food6: [],
+    food7: [],
+    food8: [],
+    food9: [],
     customer: []
   });
 
@@ -57,6 +66,15 @@ export class DietUpdateComponent implements OnInit {
       id: diet.id,
       creationDate: diet.creationDate != null ? diet.creationDate.format(DATE_TIME_FORMAT) : null,
       name: diet.name,
+      food1: diet.food1,
+      food2: diet.food2,
+      food3: diet.food3,
+      food4: diet.food4,
+      food5: diet.food5,
+      food6: diet.food6,
+      food7: diet.food7,
+      food8: diet.food8,
+      food9: diet.food9,
       customer: diet.customer
     });
   }
@@ -82,6 +100,15 @@ export class DietUpdateComponent implements OnInit {
       creationDate:
         this.editForm.get(['creationDate']).value != null ? moment(this.editForm.get(['creationDate']).value, DATE_TIME_FORMAT) : undefined,
       name: this.editForm.get(['name']).value,
+      food1: this.editForm.get(['food1']).value,
+      food2: this.editForm.get(['food2']).value,
+      food3: this.editForm.get(['food3']).value,
+      food4: this.editForm.get(['food4']).value,
+      food5: this.editForm.get(['food5']).value,
+      food6: this.editForm.get(['food6']).value,
+      food7: this.editForm.get(['food7']).value,
+      food8: this.editForm.get(['food8']).value,
+      food9: this.editForm.get(['food9']).value,
       customer: this.editForm.get(['customer']).value
     };
     return entity;

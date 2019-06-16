@@ -11,6 +11,42 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "food1",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "food2",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "food3",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "food4",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "food5",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "food6",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "food7",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "food8",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "food9",
+            "fieldType": "String"
         }
     ],
     "relationships": [
