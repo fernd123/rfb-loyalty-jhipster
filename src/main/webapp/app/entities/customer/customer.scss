@@ -11,3 +11,20 @@
   font-size: 10px;
   font-weight: bold;
 }
+
+ul {
+  list-style-type: none;
+  overflow: hidden;
+}
+
+li {
+  float: left;
+}
+
+li a {
+  display: block;
+}
+
+li a:hover {
+  background-color: #007bff;
+}

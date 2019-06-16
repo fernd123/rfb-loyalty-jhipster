@@ -32,8 +32,8 @@
     "entityTableName": "training",
     "dto": "no",
     "pagination": "pagination",
-    "service": "no",
-    "jpaMetamodelFiltering": false,
+    "serviceClass": "no",
+    "jpaMetamodelFiltering": true,
     "fluentMethods": true,
     "clientRootFolder": "",
     "applications": "*"

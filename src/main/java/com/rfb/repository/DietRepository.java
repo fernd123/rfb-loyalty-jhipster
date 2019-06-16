@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface DietRepository extends JpaRepository<Diet, Long> {
+public interface DietRepository extends JpaRepository<Diet, Long>, JpaSpecificationExecutor<Diet> {
 
 }

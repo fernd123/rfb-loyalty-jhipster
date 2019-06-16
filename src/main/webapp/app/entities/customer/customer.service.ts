@@ -1,7 +1,9 @@
+import { TrainingService } from 'app/entities/training/training.service';
+import { MeasureService } from 'app/entities/measure/measure.service';
 import { Customer } from './../../shared/model/customer.model';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable, zip } from 'rxjs';
+import { Observable, zip, forkJoin } from 'rxjs';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { map } from 'rxjs/operators';
@@ -9,6 +11,7 @@ import { map } from 'rxjs/operators';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared';
 import { ICustomer } from 'app/shared/model/customer.model';
+import { DietService } from '../diet';
 
 type EntityResponseType = HttpResponse<ICustomer>;
 type EntityArrayResponseType = HttpResponse<ICustomer[]>;
@@ -18,7 +21,12 @@ export class CustomerService {
   public customer: ICustomer = new Customer();
   public resourceUrl = SERVER_API_URL + 'api/customers';
 
-  constructor(protected http: HttpClient) {}
+  constructor(
+    protected http: HttpClient,
+    private measureService: MeasureService,
+    private trainingService: TrainingService,
+    private dietService: DietService
+  ) {}
 
   create(customer: ICustomer): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(customer);
@@ -57,6 +65,18 @@ export class CustomerService {
 
   delete(id: number): Observable<HttpResponse<any>> {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
+  refreshAll() {
+    forkJoin([
+      this.measureService.findByCustomerId(this.customer.id, {}),
+      this.trainingService.findByCustomerId(this.customer.id, {}),
+      this.dietService.findByCustomerId(this.customer.id, {})
+    ]).subscribe(results => {
+      this.customer.customerMeasures = results[0].body;
+      this.customer.customerTrainings = results[1].body;
+      this.customer.customerDiets = results[2].body;
+    });
   }
 
   protected convertDateFromClient(customer: ICustomer): ICustomer {

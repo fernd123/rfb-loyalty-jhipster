@@ -3,6 +3,8 @@ package com.rfb.web.rest;
 import com.rfb.domain.Training;
 import com.rfb.repository.TrainingRepository;
 import com.rfb.web.rest.errors.BadRequestAlertException;
+import com.rfb.service.dto.TrainingCriteria;
+import com.rfb.service.TrainingQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -41,9 +43,11 @@ public class TrainingResource {
     private String applicationName;
 
     private final TrainingRepository trainingRepository;
+    private final TrainingQueryService trainingQueryService;
 
-    public TrainingResource(TrainingRepository trainingRepository) {
+    public TrainingResource(TrainingRepository trainingRepository, TrainingQueryService trainingQueryService) {
         this.trainingRepository = trainingRepository;
+        this.trainingQueryService = trainingQueryService;
     }
 
     /**
@@ -90,14 +94,27 @@ public class TrainingResource {
      * {@code GET  /trainings} : get all the trainings.
      *
      * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of trainings in body.
      */
     @GetMapping("/trainings")
-    public ResponseEntity<List<Training>> getAllTrainings(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
-        log.debug("REST request to get a page of Trainings");
-        Page<Training> page = trainingRepository.findAll(pageable);
+    public ResponseEntity<List<Training>> getAllTrainings(TrainingCriteria criteria, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
+        log.debug("REST request to get Trainings by criteria: {}", criteria);
+        Page<Training> page = trainingQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+    * {@code GET  /trainings/count} : count all the trainings.
+    *
+    * @param criteria the criteria which the requested entities should match.
+    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+    */
+    @GetMapping("/trainings/count")
+    public ResponseEntity<Long> countTrainings(TrainingCriteria criteria) {
+        log.debug("REST request to count Trainings by criteria: {}", criteria);
+        return ResponseEntity.ok().body(trainingQueryService.countByCriteria(criteria));
     }
 
     /**

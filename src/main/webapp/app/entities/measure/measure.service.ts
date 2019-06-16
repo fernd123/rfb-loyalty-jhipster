@@ -15,6 +15,7 @@ type EntityArrayResponseType = HttpResponse<IMeasure[]>;
 @Injectable({ providedIn: 'root' })
 export class MeasureService {
   public resourceUrl = SERVER_API_URL + 'api/measures';
+  public measureSelected: IMeasure = null;
 
   constructor(protected http: HttpClient) {}
 
@@ -36,6 +37,17 @@ export class MeasureService {
     return this.http
       .get<IMeasure>(`${this.resourceUrl}/${id}`, { observe: 'response' })
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+
+  findByCustomerId(id: number, req?: any) {
+    const options = createRequestOption(req);
+
+    return this.http
+      .get<IMeasure[]>(this.resourceUrl + '?customerId.equals=' + id + '&queryParams=customerId&sort=creationDate,desc', {
+        params: options,
+        observe: 'response'
+      })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {

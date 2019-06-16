@@ -63,8 +63,6 @@ export class CustomerComponent implements OnInit, OnDestroy {
 
   findByKeyword() {
     let keyword: string = this.findForm.get('keyword').value;
-    alert(keyword);
-
     let criteria = {
       'name.contains': keyword
     };

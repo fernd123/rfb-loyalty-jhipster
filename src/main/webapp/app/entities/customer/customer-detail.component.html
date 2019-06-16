@@ -75,7 +75,9 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr class="bg-info">
-                            <td>Información Personal</td>
+                            <td>
+                                <font color="white">Información Personal</font>
+                            </td>
                         </tr>
                     </thead>
                     <tbody>
@@ -118,14 +120,18 @@
                         <fa-icon [icon]="'pencil-alt'"></fa-icon>&nbsp;<span> Editar Información</span>
                     </button>
                     <button type="submit"
-                        [routerLink]="['/', 'customer', { outlets: { popup: customerService.customer.id + '/customerMeasure'} }]"
+                        [routerLink]="['/', 'customer', { outlets: { popup: customerService.customer.id + '/customerMeasure/'+ null} }]"
                         replaceUrl="true" queryParamsHandling="merge" class="btn btn-warning btn-block">
                         <fa-icon [icon]="'list'"></fa-icon>&nbsp;<span> Registrar Medidas</span>
                     </button>
-                    <button type="button" (click)="open(training)" class="btn btn-info btn-block">
+                    <button type="submit"
+                        [routerLink]="['/', 'customer', { outlets: { popup: customerService.customer.id + '/customerTraining'} }]"
+                        replaceUrl="true" queryParamsHandling="merge" class="btn btn-light btn-block">
                         <fa-icon [icon]="'book'"></fa-icon>&nbsp;<span>Registrar Entrenamiento</span>
                     </button>
-                    <button type="button" (click)="open(diet)" class="btn btn-success btn-block">
+                    <button type="submit"
+                        [routerLink]="['/', 'customer', { outlets: { popup: customerService.customer.id + '/customerDiet/'+ null} }]"
+                        replaceUrl="true" queryParamsHandling="merge" class="btn btn-success btn-block">
                         <fa-icon [icon]="'heart'"></fa-icon>&nbsp;<span>Registrar Dieta</span>
                     </button>
                     <button type="button" (click)="open(status)" class="btn btn-secondary btn-block">
@@ -154,3 +160,103 @@
         <button type="button" class="btn btn-outline-dark" (click)="save('status')">Confirmar</button>
     </div>
 </ng-template>
+
+
+<br>
+<div class="list-group">
+    <ul #customerValues>
+        <li><a class="list-group-item active" #measureLi (click)="showInfo('measure', measureLi)">Medidas</a></li>
+        <li><a class="list-group-item" #trainingLi (click)="showInfo('training', trainingLi)">Entrenamientos</a></li>
+        <li><a class="list-group-item" #dietLi (click)="showInfo('diet', dietLi)">Dietas<a></li>
+        <!--<li><a class="list-group-item" #dateLi (click)="showInfo('date', dateLi)">Citas</a></li>-->
+    </ul>
+</div>
+
+<!-- MEASURE TABLE-->
+<div class="table-responsive" *ngIf="showMeasure == true">
+    <table class="table table-striped">
+        <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+                <th jhiSortBy="creationDate"><span>Fecha</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th jhiSortBy="leg"><span>Pierna</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th jhiSortBy="ribCage"><span>Caja Toracica</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th jhiSortBy="arm"><span>Brazo</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
+            [infiniteScrollDistance]="0">
+            <tr *ngFor="let measure of customerService.customer.customerMeasures ;trackBy: trackId">
+                <td>{{measure.creationDate | date: 'mediumDate'}}</td>
+                <td>{{measure.leg}}</td>
+                <td>{{measure.ribCage}}</td>
+                <td>{{measure.arm}}</td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                            [routerLink]="['/', 'customer', { outlets: { popup: customerService.customer.id + '/customerMeasure/' + measure.id} }]"
+                            replaceUrl="true" queryParamsHandling="merge" class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Editar</span>
+                        </button>
+                        <button type="submit"
+                            [routerLink]="['/', 'customer', { outlets: { popup: customer.id + '/delete'} }]"
+                            replaceUrl="true" queryParamsHandling="merge" class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Borrar</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<!-- OTHER DATA -->
+<div class="table-responsive" *ngIf="showData == true">
+    <table class="table table-striped">
+        <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+                <th jhiSortBy="creationDate"><span>Fecha</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th jhiSortBy="name"><span>Nombre</span>
+                    <fa-icon [icon]="'sort'"></fa-icon>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
+            [infiniteScrollDistance]="0">
+            <tr *ngFor="let diet of customerInfoList ;trackBy: trackId">
+                <td>{{diet.creationDate | date: 'mediumDate'}}</td>
+                <td>{{diet.name}}</td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                            [routerLink]="['/', 'customer', { outlets: { popup: customerService.customer.id + '/customerDiet/' +diet.id} }]"
+                            replaceUrl="true" queryParamsHandling="merge" class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Editar</span>
+                        </button>
+                        <button type="submit"
+                            [routerLink]="['/', 'customer', { outlets: { popup: customer.id + '/delete'} }]"
+                            replaceUrl="true" queryParamsHandling="merge" class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Borrar</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,35 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+    <div class="modal-header">
+        <h4 class="modal-title">Registrar Entrenamiento</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="form-group">
+            <input class="form-control" name="id" id="id" formControlName="id" hidden />
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" for="field_arm">Dia 1</label>
+            <input type="text" class="form-control" name="arm" id="field_arm" formControlName="arm" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_ribCage">Dia 2</label>
+            <input type="text" class="form-control" name="ribCage" id="field_ribCage" formControlName="ribCage" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_leg">Dia 3</label>
+            <input type="text" class="form-control" name="leg" id="field_leg" formControlName="leg" />
+        </div>
+
+    </div>
+    <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+                <fa-icon [icon]="'ban'"></fa-icon>&nbsp;<span>Cancel</span>
+            </button>
+            <button id="jhi-confirm-delete-customer" type="submit" class="btn btn-success">
+                <fa-icon [icon]="'save'"></fa-icon>&nbsp;<span>Guardar</span>
+            </button>
+        </div>
+</form>

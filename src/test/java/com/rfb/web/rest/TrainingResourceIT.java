@@ -2,8 +2,12 @@ package com.rfb.web.rest;
 
 import com.rfb.RfbloyaltyApp;
 import com.rfb.domain.Training;
+import com.rfb.domain.Customer;
+import com.rfb.domain.TrainingDay;
 import com.rfb.repository.TrainingRepository;
 import com.rfb.web.rest.errors.ExceptionTranslator;
+import com.rfb.service.dto.TrainingCriteria;
+import com.rfb.service.TrainingQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,6 +47,9 @@ public class TrainingResourceIT {
 
     @Autowired
     private TrainingRepository trainingRepository;
+
+    @Autowired
+    private TrainingQueryService trainingQueryService;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -191,6 +198,157 @@ public class TrainingResourceIT {
             .andExpect(jsonPath("$.creationDate").value(DEFAULT_CREATION_DATE.toString()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()));
     }
+
+    @Test
+    @Transactional
+    public void getAllTrainingsByCreationDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        trainingRepository.saveAndFlush(training);
+
+        // Get all the trainingList where creationDate equals to DEFAULT_CREATION_DATE
+        defaultTrainingShouldBeFound("creationDate.equals=" + DEFAULT_CREATION_DATE);
+
+        // Get all the trainingList where creationDate equals to UPDATED_CREATION_DATE
+        defaultTrainingShouldNotBeFound("creationDate.equals=" + UPDATED_CREATION_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTrainingsByCreationDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        trainingRepository.saveAndFlush(training);
+
+        // Get all the trainingList where creationDate in DEFAULT_CREATION_DATE or UPDATED_CREATION_DATE
+        defaultTrainingShouldBeFound("creationDate.in=" + DEFAULT_CREATION_DATE + "," + UPDATED_CREATION_DATE);
+
+        // Get all the trainingList where creationDate equals to UPDATED_CREATION_DATE
+        defaultTrainingShouldNotBeFound("creationDate.in=" + UPDATED_CREATION_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTrainingsByCreationDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        trainingRepository.saveAndFlush(training);
+
+        // Get all the trainingList where creationDate is not null
+        defaultTrainingShouldBeFound("creationDate.specified=true");
+
+        // Get all the trainingList where creationDate is null
+        defaultTrainingShouldNotBeFound("creationDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllTrainingsByNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        trainingRepository.saveAndFlush(training);
+
+        // Get all the trainingList where name equals to DEFAULT_NAME
+        defaultTrainingShouldBeFound("name.equals=" + DEFAULT_NAME);
+
+        // Get all the trainingList where name equals to UPDATED_NAME
+        defaultTrainingShouldNotBeFound("name.equals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTrainingsByNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        trainingRepository.saveAndFlush(training);
+
+        // Get all the trainingList where name in DEFAULT_NAME or UPDATED_NAME
+        defaultTrainingShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
+
+        // Get all the trainingList where name equals to UPDATED_NAME
+        defaultTrainingShouldNotBeFound("name.in=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllTrainingsByNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        trainingRepository.saveAndFlush(training);
+
+        // Get all the trainingList where name is not null
+        defaultTrainingShouldBeFound("name.specified=true");
+
+        // Get all the trainingList where name is null
+        defaultTrainingShouldNotBeFound("name.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllTrainingsByCustomerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Customer customer = CustomerResourceIT.createEntity(em);
+        em.persist(customer);
+        em.flush();
+        training.setCustomer(customer);
+        trainingRepository.saveAndFlush(training);
+        Long customerId = customer.getId();
+
+        // Get all the trainingList where customer equals to customerId
+        defaultTrainingShouldBeFound("customerId.equals=" + customerId);
+
+        // Get all the trainingList where customer equals to customerId + 1
+        defaultTrainingShouldNotBeFound("customerId.equals=" + (customerId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllTrainingsByTrainingDayIsEqualToSomething() throws Exception {
+        // Initialize the database
+        TrainingDay trainingDay = TrainingDayResourceIT.createEntity(em);
+        em.persist(trainingDay);
+        em.flush();
+        training.addTrainingDay(trainingDay);
+        trainingRepository.saveAndFlush(training);
+        Long trainingDayId = trainingDay.getId();
+
+        // Get all the trainingList where trainingDay equals to trainingDayId
+        defaultTrainingShouldBeFound("trainingDayId.equals=" + trainingDayId);
+
+        // Get all the trainingList where trainingDay equals to trainingDayId + 1
+        defaultTrainingShouldNotBeFound("trainingDayId.equals=" + (trainingDayId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultTrainingShouldBeFound(String filter) throws Exception {
+        restTrainingMockMvc.perform(get("/api/trainings?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(training.getId().intValue())))
+            .andExpect(jsonPath("$.[*].creationDate").value(hasItem(DEFAULT_CREATION_DATE.toString())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)));
+
+        // Check, that the count call also returns 1
+        restTrainingMockMvc.perform(get("/api/trainings/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultTrainingShouldNotBeFound(String filter) throws Exception {
+        restTrainingMockMvc.perform(get("/api/trainings?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restTrainingMockMvc.perform(get("/api/trainings/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional

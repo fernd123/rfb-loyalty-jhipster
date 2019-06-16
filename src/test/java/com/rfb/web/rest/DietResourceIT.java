@@ -2,8 +2,13 @@ package com.rfb.web.rest;
 
 import com.rfb.RfbloyaltyApp;
 import com.rfb.domain.Diet;
+import com.rfb.domain.Customer;
+import com.rfb.domain.DietFood;
 import com.rfb.repository.DietRepository;
+import com.rfb.service.DietService;
 import com.rfb.web.rest.errors.ExceptionTranslator;
+import com.rfb.service.dto.DietCriteria;
+import com.rfb.service.DietQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,6 +50,12 @@ public class DietResourceIT {
     private DietRepository dietRepository;
 
     @Autowired
+    private DietService dietService;
+
+    @Autowired
+    private DietQueryService dietQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -66,7 +77,7 @@ public class DietResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final DietResource dietResource = new DietResource(dietRepository);
+        final DietResource dietResource = new DietResource(dietService, dietQueryService);
         this.restDietMockMvc = MockMvcBuilders.standaloneSetup(dietResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -194,6 +205,157 @@ public class DietResourceIT {
 
     @Test
     @Transactional
+    public void getAllDietsByCreationDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where creationDate equals to DEFAULT_CREATION_DATE
+        defaultDietShouldBeFound("creationDate.equals=" + DEFAULT_CREATION_DATE);
+
+        // Get all the dietList where creationDate equals to UPDATED_CREATION_DATE
+        defaultDietShouldNotBeFound("creationDate.equals=" + UPDATED_CREATION_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByCreationDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where creationDate in DEFAULT_CREATION_DATE or UPDATED_CREATION_DATE
+        defaultDietShouldBeFound("creationDate.in=" + DEFAULT_CREATION_DATE + "," + UPDATED_CREATION_DATE);
+
+        // Get all the dietList where creationDate equals to UPDATED_CREATION_DATE
+        defaultDietShouldNotBeFound("creationDate.in=" + UPDATED_CREATION_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByCreationDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where creationDate is not null
+        defaultDietShouldBeFound("creationDate.specified=true");
+
+        // Get all the dietList where creationDate is null
+        defaultDietShouldNotBeFound("creationDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where name equals to DEFAULT_NAME
+        defaultDietShouldBeFound("name.equals=" + DEFAULT_NAME);
+
+        // Get all the dietList where name equals to UPDATED_NAME
+        defaultDietShouldNotBeFound("name.equals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where name in DEFAULT_NAME or UPDATED_NAME
+        defaultDietShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
+
+        // Get all the dietList where name equals to UPDATED_NAME
+        defaultDietShouldNotBeFound("name.in=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        dietRepository.saveAndFlush(diet);
+
+        // Get all the dietList where name is not null
+        defaultDietShouldBeFound("name.specified=true");
+
+        // Get all the dietList where name is null
+        defaultDietShouldNotBeFound("name.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllDietsByCustomerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        Customer customer = CustomerResourceIT.createEntity(em);
+        em.persist(customer);
+        em.flush();
+        diet.setCustomer(customer);
+        dietRepository.saveAndFlush(diet);
+        Long customerId = customer.getId();
+
+        // Get all the dietList where customer equals to customerId
+        defaultDietShouldBeFound("customerId.equals=" + customerId);
+
+        // Get all the dietList where customer equals to customerId + 1
+        defaultDietShouldNotBeFound("customerId.equals=" + (customerId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllDietsByDietFoodIsEqualToSomething() throws Exception {
+        // Initialize the database
+        DietFood dietFood = DietFoodResourceIT.createEntity(em);
+        em.persist(dietFood);
+        em.flush();
+        diet.addDietFood(dietFood);
+        dietRepository.saveAndFlush(diet);
+        Long dietFoodId = dietFood.getId();
+
+        // Get all the dietList where dietFood equals to dietFoodId
+        defaultDietShouldBeFound("dietFoodId.equals=" + dietFoodId);
+
+        // Get all the dietList where dietFood equals to dietFoodId + 1
+        defaultDietShouldNotBeFound("dietFoodId.equals=" + (dietFoodId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultDietShouldBeFound(String filter) throws Exception {
+        restDietMockMvc.perform(get("/api/diets?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(diet.getId().intValue())))
+            .andExpect(jsonPath("$.[*].creationDate").value(hasItem(DEFAULT_CREATION_DATE.toString())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)));
+
+        // Check, that the count call also returns 1
+        restDietMockMvc.perform(get("/api/diets/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultDietShouldNotBeFound(String filter) throws Exception {
+        restDietMockMvc.perform(get("/api/diets?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restDietMockMvc.perform(get("/api/diets/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
+
+    @Test
+    @Transactional
     public void getNonExistingDiet() throws Exception {
         // Get the diet
         restDietMockMvc.perform(get("/api/diets/{id}", Long.MAX_VALUE))
@@ -204,7 +366,7 @@ public class DietResourceIT {
     @Transactional
     public void updateDiet() throws Exception {
         // Initialize the database
-        dietRepository.saveAndFlush(diet);
+        dietService.save(diet);
 
         int databaseSizeBeforeUpdate = dietRepository.findAll().size();
 
@@ -251,7 +413,7 @@ public class DietResourceIT {
     @Transactional
     public void deleteDiet() throws Exception {
         // Initialize the database
-        dietRepository.saveAndFlush(diet);
+        dietService.save(diet);
 
         int databaseSizeBeforeDelete = dietRepository.findAll().size();
 

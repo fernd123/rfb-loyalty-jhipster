@@ -49,6 +49,17 @@ export class TrainingService {
     return this.http.delete<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
+  findByCustomerId(id: number, req?: any) {
+    const options = createRequestOption(req);
+
+    return this.http
+      .get<ITraining[]>(this.resourceUrl + '?customerId.equals=' + id + '&queryParams=customerId&sort=creationDate,desc', {
+        params: options,
+        observe: 'response'
+      })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+  }
+
   protected convertDateFromClient(training: ITraining): ITraining {
     const copy: ITraining = Object.assign({}, training, {
       creationDate: training.creationDate != null && training.creationDate.isValid() ? training.creationDate.toJSON() : null

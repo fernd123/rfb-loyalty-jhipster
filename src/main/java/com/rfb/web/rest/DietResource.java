@@ -1,8 +1,10 @@
 package com.rfb.web.rest;
 
 import com.rfb.domain.Diet;
-import com.rfb.repository.DietRepository;
+import com.rfb.service.DietService;
 import com.rfb.web.rest.errors.BadRequestAlertException;
+import com.rfb.service.dto.DietCriteria;
+import com.rfb.service.DietQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -40,10 +42,13 @@ public class DietResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final DietRepository dietRepository;
+    private final DietService dietService;
 
-    public DietResource(DietRepository dietRepository) {
-        this.dietRepository = dietRepository;
+    private final DietQueryService dietQueryService;
+
+    public DietResource(DietService dietService, DietQueryService dietQueryService) {
+        this.dietService = dietService;
+        this.dietQueryService = dietQueryService;
     }
 
     /**
@@ -59,7 +64,7 @@ public class DietResource {
         if (diet.getId() != null) {
             throw new BadRequestAlertException("A new diet cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Diet result = dietRepository.save(diet);
+        Diet result = dietService.save(diet);
         return ResponseEntity.created(new URI("/api/diets/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -80,7 +85,7 @@ public class DietResource {
         if (diet.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        Diet result = dietRepository.save(diet);
+        Diet result = dietService.save(diet);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, diet.getId().toString()))
             .body(result);
@@ -90,14 +95,27 @@ public class DietResource {
      * {@code GET  /diets} : get all the diets.
      *
      * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of diets in body.
      */
     @GetMapping("/diets")
-    public ResponseEntity<List<Diet>> getAllDiets(Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
-        log.debug("REST request to get a page of Diets");
-        Page<Diet> page = dietRepository.findAll(pageable);
+    public ResponseEntity<List<Diet>> getAllDiets(DietCriteria criteria, Pageable pageable, @RequestParam MultiValueMap<String, String> queryParams, UriComponentsBuilder uriBuilder) {
+        log.debug("REST request to get Diets by criteria: {}", criteria);
+        Page<Diet> page = dietQueryService.findByCriteria(criteria, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(uriBuilder.queryParams(queryParams), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+    * {@code GET  /diets/count} : count all the diets.
+    *
+    * @param criteria the criteria which the requested entities should match.
+    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+    */
+    @GetMapping("/diets/count")
+    public ResponseEntity<Long> countDiets(DietCriteria criteria) {
+        log.debug("REST request to count Diets by criteria: {}", criteria);
+        return ResponseEntity.ok().body(dietQueryService.countByCriteria(criteria));
     }
 
     /**
@@ -109,7 +127,7 @@ public class DietResource {
     @GetMapping("/diets/{id}")
     public ResponseEntity<Diet> getDiet(@PathVariable Long id) {
         log.debug("REST request to get Diet : {}", id);
-        Optional<Diet> diet = dietRepository.findById(id);
+        Optional<Diet> diet = dietService.findOne(id);
         return ResponseUtil.wrapOrNotFound(diet);
     }
 
@@ -122,7 +140,7 @@ public class DietResource {
     @DeleteMapping("/diets/{id}")
     public ResponseEntity<Void> deleteDiet(@PathVariable Long id) {
         log.debug("REST request to delete Diet : {}", id);
-        dietRepository.deleteById(id);
+        dietService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
 }

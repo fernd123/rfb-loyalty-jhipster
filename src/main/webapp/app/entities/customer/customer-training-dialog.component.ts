@@ -13,10 +13,10 @@ import { ICustomer } from 'app/shared/model/customer.model';
 import { CustomerService } from 'app/entities/customer';
 
 @Component({
-  selector: 'jhi-customer-measure-dialog',
-  templateUrl: './customer-measure-dialog.component.html'
+  selector: 'jhi-customer-training-dialog',
+  templateUrl: './customer-training-dialog.component.html'
 })
-export class CustomerMeasureDialogComponent {
+export class CustomerTrainingDialogComponent {
   customer: ICustomer;
   isSaving: boolean;
 
@@ -52,10 +52,10 @@ export class CustomerMeasureDialogComponent {
 
   updateForm(measure?: IMeasure) {
     this.editForm.patchValue({
-      id: this.measureService.measureSelected != undefined ? this.measureService.measureSelected.id : undefined,
-      arm: this.measureService.measureSelected != undefined ? this.measureService.measureSelected.arm : undefined,
-      ribCage: this.measureService.measureSelected != undefined ? this.measureService.measureSelected.ribCage : undefined,
-      leg: this.measureService.measureSelected != undefined ? this.measureService.measureSelected.leg : undefined
+      id: measure != undefined ? measure.id : undefined,
+      arm: measure != undefined ? measure.arm : undefined,
+      ribCage: measure != undefined ? measure.ribCage : undefined,
+      leg: measure != undefined ? measure.leg : undefined
     });
   }
 
@@ -77,7 +77,8 @@ export class CustomerMeasureDialogComponent {
     const entity = {
       ...new Measure(),
       id: this.editForm.get(['id']).value,
-      creationDate: this.measureService.measureSelected != null ? this.measureService.measureSelected.creationDate : null,
+      creationDate:
+        this.editForm.get(['creationDate']).value != null ? moment(this.editForm.get(['creationDate']).value, DATE_TIME_FORMAT) : undefined,
       arm: this.editForm.get(['arm']).value,
       ribCage: this.editForm.get(['ribCage']).value,
       leg: this.editForm.get(['leg']).value,
@@ -108,10 +109,10 @@ export class CustomerMeasureDialogComponent {
 }
 
 @Component({
-  selector: 'jhi-customer-measure-popup',
+  selector: 'jhi-customer-training-popup',
   template: ''
 })
-export class CustomerMeasurePopupComponent implements OnInit, OnDestroy {
+export class CustomerTrainingPopupComponent implements OnInit, OnDestroy {
   protected ngbModalRef: NgbModalRef;
 
   constructor(protected activatedRoute: ActivatedRoute, protected router: Router, protected modalService: NgbModal) {}
@@ -119,7 +120,7 @@ export class CustomerMeasurePopupComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.activatedRoute.data.subscribe(({ customer }) => {
       setTimeout(() => {
-        this.ngbModalRef = this.modalService.open(CustomerMeasureDialogComponent as Component, { size: 'lg', backdrop: 'static' });
+        this.ngbModalRef = this.modalService.open(CustomerTrainingDialogComponent as Component, { size: 'lg', backdrop: 'static' });
         this.ngbModalRef.componentInstance.customer = customer;
         this.ngbModalRef.result.then(
           result => {
